@@ -1,0 +1,53 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "akwaaba_user_app",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "akwaaba_user_app (profile mode)",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "akwaaba_user_app (release mode)",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        },
+        {
+            "name": "web - akwaaba_user_app",
+            "request": "launch",
+            "type": "dart",
+            "program": "lib/web/main.dart",
+            "deviceId": "chrome",
+            "args": [
+                "--debug",
+                "--web-port=5000",
+                "--web-enable-expression-evaluation",
+                "--web-renderer=canvaskit",
+                "--dart-define=FLUTTER_WEB_CANVASKIT_URL=/lib/canvaskit.js/"
+            ]
+        },
+        {
+            "name": "webBUILD - akwaaba_user_app",
+            "request": "launch",
+            "type": "dart",
+            "program": "lib/web/main.dart",
+            "deviceId": "chrome",
+            "args": [
+                "--build",
+                "--web-port=5000",
+                "--web-enable-expression-evaluation",
+                "--web-renderer=canvaskit",
+                "--dart-define=FLUTTER_WEB_CANVASKIT_URL=/lib/canvaskit.js/"
+            ]
+        },
+    ]
+}

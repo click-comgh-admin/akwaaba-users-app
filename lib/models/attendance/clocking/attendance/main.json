@@ -1,0 +1,16 @@
+{
+    "id": 62,
+    "meetingEventId": 25,
+    "memberId": 117,
+    "accountType": 1,
+    "inOrOut": true,
+    "inTime": "2022-07-30T00:01:01",
+    "outTime": null,
+    "startBreak": null,
+    "endBreak": null,
+    "clockedBy": 3,
+    "clockingMethod": 1,
+    "validate": false,
+    "date": "2022-07-21T14:26:23.464426Z",
+    "SUCCESS_RESPONSE_MESSAGE": "Clock In Successful"
+}

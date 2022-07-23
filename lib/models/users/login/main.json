@@ -1,0 +1,13 @@
+{
+    "expiry": "2022-07-18T08:50:34.787374Z",
+    "token": "3bf110d3ed968ba73b0f9b3d753b2064ae3783190ac921825ce06d32fc9ddddf",
+    "user": {
+        "id": 5,
+        "firstname": "Test",
+        "surname": "User",
+        "profilePicture": "http://192.168.173.1/AMG/plus_db/file_bucket/files/member/profile/5/7f20c450915edf68019a4b9f66c87789.jpg",
+        "phone": "0209078891",
+        "email": "a@b.c",
+        "clientId": 4
+    }
+}
