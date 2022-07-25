@@ -1,5 +1,6 @@
 import 'package:akwaaba_user_app/imports/classes/network/base/api/status.dart';
 import 'package:akwaaba_user_app/imports/functions/datetime/main.dart';
+import 'package:akwaaba_user_app/imports/utilities/constants/padding_margin/home_clocker_card_list_tile/main.dart';
 import 'package:akwaaba_user_app/imports/widgets/pages/attendance/home/clocker/card/sections/clockerfx.dart';
 import 'package:akwaaba_user_app/imports/widgets/text_button/main.dart';
 import 'package:akwaaba_user_app/models/attendance/clocking/attendance/details/main.dart';
@@ -29,11 +30,11 @@ class _ClockingUiCardClockerAttendancePagesHomeWidgetState
     extends State<ClockingUiCardClockerAttendancePagesHomeWidget> {
   GlobalKey<ArtDialogState> _artConfirmClockingDialogKey =
       GlobalKey<ArtDialogState>();
-  String alertMessage = "-";
   ScrollController scrollController = ScrollController();
 
-  String clockInTime = "__:__ __";
-  String clockOutTime = "__:__ __";
+  String? clockInTime;
+  String? clockOutTime;
+  AttendanceClockingAttendanceModel? clockingInfoModel;
 
   @override
   void dispose() {
@@ -55,32 +56,25 @@ class _ClockingUiCardClockerAttendancePagesHomeWidgetState
 
   bool setClockingInfoModelCalled = false;
 
-  setClockingInfoModel(
-    AttendanceClockerClockingAttendanceViewModel
-        attendanceClockingAttendanceViewModel,
-  ) {
+  setClockingInfoModel() {
     if (!setClockingInfoModelCalled) {
-      WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-        attendanceClockingAttendanceViewModel.setClockingInfoModel(
-          AttendanceClockingAttendanceModel(
-            accountType: widget.clockingInfo?.accountType,
-            clockedBy: widget.clockingInfo?.clockedBy,
-            clockingMethod: widget.clockingInfo?.clockingMethod,
-            date: widget.clockingInfo?.date,
-            endBreak: widget.clockingInfo?.endBreak,
-            id: widget.clockingInfo?.id,
-            inOrOut: widget.clockingInfo?.inOrOut,
-            inTime: widget.clockingInfo?.inTime,
-            meetingEventId: widget.clockingInfo?.meetingEventId?.id,
-            memberId: widget.clockingInfo?.memberId.id,
-            outTime: widget.clockingInfo?.outTime,
-            startBreak: widget.clockingInfo?.startBreak,
-            successResponseMessage: "??",
-            validate: widget.clockingInfo?.validate,
-          ),
-        );
-      });
       setState(() {
+        clockingInfoModel = AttendanceClockingAttendanceModel(
+          accountType: widget.clockingInfo?.accountType,
+          clockedBy: widget.clockingInfo?.clockedBy,
+          clockingMethod: widget.clockingInfo?.clockingMethod,
+          date: widget.clockingInfo?.date,
+          endBreak: widget.clockingInfo?.endBreak,
+          id: widget.clockingInfo?.id,
+          inOrOut: widget.clockingInfo?.inOrOut,
+          inTime: widget.clockingInfo?.inTime,
+          meetingEventId: widget.clockingInfo?.meetingEventId?.id,
+          memberId: widget.clockingInfo?.memberId.id,
+          outTime: widget.clockingInfo?.outTime,
+          startBreak: widget.clockingInfo?.startBreak,
+          successResponseMessage: "??",
+          validate: widget.clockingInfo?.validate,
+        );
         setClockingInfoModelCalled = true;
       });
     }
@@ -93,289 +87,314 @@ class _ClockingUiCardClockerAttendancePagesHomeWidgetState
     AttendanceClockerClockingAttendanceViewModel
         attendanceClockingAttendanceViewModel =
         context.watch<AttendanceClockerClockingAttendanceViewModel>();
-    setClockingInfoModel(attendanceClockingAttendanceViewModel);
+    setClockingInfoModel();
 
-    if (attendanceClockingAttendanceViewModel.clockingInfo != null) {
-      clockInTime = attendanceClockingAttendanceViewModel
-                  .clockingInfo!.inTime ==
-              null
-          ? "__:__ __"
-          : formatTimeDatetimeFunction(DateTime.parse(
-              "${attendanceClockingAttendanceViewModel.clockingInfo!.inTime!}"));
+    if (clockingInfoModel != null) {
+      clockInTime = clockingInfoModel!.inTime == null
+          ? null
+          : formatTimeDatetimeFunction(
+              DateTime.parse("${clockingInfoModel!.inTime!}"));
 
-      clockOutTime = attendanceClockingAttendanceViewModel
-                  .clockingInfo!.outTime ==
-              null
-          ? "__:__ __"
-          : formatTimeDatetimeFunction(DateTime.parse(
-              "${attendanceClockingAttendanceViewModel.clockingInfo!.outTime!}"));
+      clockOutTime = clockingInfoModel!.outTime == null
+          ? null
+          : formatTimeDatetimeFunction(
+              DateTime.parse("${clockingInfoModel!.outTime!}"));
     }
 
     return SingleChildScrollView(
       controller: scrollController,
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const Divider(),
-          Center(
-            child: Text(
-              "Attendance Clocking",
-              style: Theme.of(context).textTheme.headline6,
-            ),
+          Text(
+            "Attendance Clocking",
+            style: Theme.of(context).textTheme.headline6,
           ),
-          ListTile(
-            leading: SizedBox(
-              width: 75,
-              child: TextButtonIconWidget(
-                onPressed: () async {
-                  setState(() {
-                    alertMessage = "Clock In";
-                  });
-                  await clockerWidgetClockButtonFx(context,
-                      meetingId: widget.meeting.id!,
-                      meetingLocation: widget.meeting.meetingLocation!,
-                      alertMessage: alertMessage,
-                      artConfirmClockingDialogKey: _artConfirmClockingDialogKey,
-                      attendanceScheduleLocationViewModel:
-                          attendanceScheduleLocationViewModel,
-                      clocker: (allowedToClock) async {
-                    if (allowedToClock) {
-                      _artConfirmClockingDialogKey.currentState!.showLoader();
-                      var clocked = await attendanceClockingAttendanceViewModel
-                          .clockInAlt(
-                        clockingId: widget.clockingInfo!.id,
-                      );
-                      _artConfirmClockingDialogKey.currentState!.hideLoader();
-                      if (clocked is NetworkSuccess) {
-                        AttendanceClockingAttendanceModel acam = clocked
-                            .response as AttendanceClockingAttendanceModel;
-
-                        WidgetsBinding.instance
-                            .addPostFrameCallback((timeStamp) {
-                          attendanceClockingAttendanceViewModel
-                              .setClockingInfoModel(acam);
-                        });
-                        ArtDialogResponse artSweetAlert =
-                            await ArtSweetAlert.show(
-                          barrierDismissible: false,
-                          context: context,
-                          artDialogArgs: ArtDialogArgs(
-                            showCancelBtn: false,
-                            confirmButtonText: "Close",
-                            confirmButtonColor: Colors.grey,
-                            type: ArtSweetAlertType.success,
-                            customColumns: [
-                              Container(
-                                margin: const EdgeInsets.only(bottom: 12.0),
-                                child: Text(
-                                  acam.successResponseMessage!,
-                                ),
-                              ),
-                            ],
-                            onConfirm: () {
-                              _artConfirmClockingDialogKey.currentState!
-                                  .closeDialog();
-                            },
-                            onDispose: () {
-                              _artConfirmClockingDialogKey =
-                                  GlobalKey<ArtDialogState>();
-                            },
-                          ),
-                        );
-                        if (artSweetAlert.isTapConfirmButton) {
-                          _artConfirmClockingDialogKey.currentState!
-                              .closeDialog();
-                        }
-                      }
-                      if (clocked is NetworkFailure) {
-                        ArtDialogResponse artSweetAlert =
-                            await ArtSweetAlert.show(
-                          barrierDismissible: false,
-                          context: context,
-                          artDialogArgs: ArtDialogArgs(
-                            showCancelBtn: false,
-                            confirmButtonText: "Close",
-                            confirmButtonColor: Colors.grey,
-                            type: ArtSweetAlertType.warning,
-                            customColumns: [
-                              Container(
-                                margin: const EdgeInsets.only(bottom: 12.0),
-                                child: Text(clocked.errorResponse.toString()),
-                              )
-                            ],
-                            onConfirm: () {
-                              _artConfirmClockingDialogKey.currentState!
-                                  .closeDialog();
-                            },
-                            onDispose: () {
-                              _artConfirmClockingDialogKey =
-                                  GlobalKey<ArtDialogState>();
-                            },
-                          ),
-                        );
-                        if (artSweetAlert.isTapConfirmButton) {
-                          _artConfirmClockingDialogKey.currentState!
-                              .closeDialog();
-                        }
-                      }
-                    } else {
-                      ArtDialogResponse artSweetAlert =
-                          await ArtSweetAlert.show(
-                        barrierDismissible: false,
-                        context: context,
-                        artDialogArgs: ArtDialogArgs(
-                          showCancelBtn: false,
-                          confirmButtonText: "Close",
-                          confirmButtonColor: Colors.grey,
-                          type: ArtSweetAlertType.warning,
-                          title: "Sorry, you have be blocked from clocking",
-                        ),
-                      );
-                      if (artSweetAlert.isTapConfirmButton) {
-                        _artConfirmClockingDialogKey.currentState!
-                            .closeDialog();
-                      }
-                    }
-                  }, onDispose: () {
-                    _artConfirmClockingDialogKey = GlobalKey<ArtDialogState>();
-                  });
-                },
-                label: "In",
-                color: Colors.green,
-                icon: Icons.keyboard_double_arrow_right_sharp,
-              ),
-            ),
-            trailing: SizedBox(
-              width: 75,
-              child: TextButtonIconWidget(
-                onPressed: () async {
-                  setState(() {
-                    alertMessage = "Clock Out";
-                  });
-                  await clockerWidgetClockButtonFx(context,
-                      meetingId: widget.meeting.id!,
-                      meetingLocation: widget.meeting.meetingLocation!,
-                      alertMessage: alertMessage,
-                      artConfirmClockingDialogKey: _artConfirmClockingDialogKey,
-                      attendanceScheduleLocationViewModel:
-                          attendanceScheduleLocationViewModel,
-                      clocker: (allowedToClock) async {
-                    if (allowedToClock) {
-                      _artConfirmClockingDialogKey.currentState!.showLoader();
-                      var clocked = await attendanceClockingAttendanceViewModel
-                          .clockOutAlt(
-                        clockingId: widget.clockingInfo!.id,
-                      );
-                      _artConfirmClockingDialogKey.currentState!.hideLoader();
-                      if (clocked is NetworkSuccess) {
-                        AttendanceClockingAttendanceModel acam = clocked
-                            .response as AttendanceClockingAttendanceModel;
-
-                        WidgetsBinding.instance
-                            .addPostFrameCallback((timeStamp) {
-                          attendanceClockingAttendanceViewModel
-                              .setClockingInfoModel(acam);
-                        });
-                        ArtDialogResponse artSweetAlert =
-                            await ArtSweetAlert.show(
-                          barrierDismissible: false,
-                          context: context,
-                          artDialogArgs: ArtDialogArgs(
-                            showCancelBtn: false,
-                            confirmButtonText: "Close",
-                            confirmButtonColor: Colors.grey,
-                            type: ArtSweetAlertType.success,
-                            customColumns: [
-                              Container(
-                                margin: const EdgeInsets.only(bottom: 12.0),
-                                child: Text(
-                                  acam.successResponseMessage!,
-                                ),
-                              ),
-                            ],
-                            onConfirm: () {
-                              _artConfirmClockingDialogKey.currentState!
-                                  .closeDialog();
-                            },
-                            onDispose: () {
-                              _artConfirmClockingDialogKey =
-                                  GlobalKey<ArtDialogState>();
-                            },
-                          ),
-                        );
-                        if (artSweetAlert.isTapConfirmButton) {
-                          _artConfirmClockingDialogKey.currentState!
-                              .closeDialog();
-                        }
-                      }
-                      if (clocked is NetworkFailure) {
-                        ArtDialogResponse artSweetAlert =
-                            await ArtSweetAlert.show(
-                          barrierDismissible: false,
-                          context: context,
-                          artDialogArgs: ArtDialogArgs(
-                            showCancelBtn: false,
-                            confirmButtonText: "Close",
-                            confirmButtonColor: Colors.grey,
-                            type: ArtSweetAlertType.warning,
-                            customColumns: [
-                              Container(
-                                margin: const EdgeInsets.only(bottom: 12.0),
-                                child: Text(clocked.errorResponse.toString()),
-                              )
-                            ],
-                            onConfirm: () {
-                              _artConfirmClockingDialogKey.currentState!
-                                  .closeDialog();
-                            },
-                            onDispose: () {
-                              _artConfirmClockingDialogKey =
-                                  GlobalKey<ArtDialogState>();
-                            },
-                          ),
-                        );
-                        if (artSweetAlert.isTapConfirmButton) {
-                          _artConfirmClockingDialogKey.currentState!
-                              .closeDialog();
-                        }
-                      }
-                    } else {
-                      ArtDialogResponse artSweetAlert =
-                          await ArtSweetAlert.show(
-                        barrierDismissible: false,
-                        context: context,
-                        artDialogArgs: ArtDialogArgs(
-                          showCancelBtn: false,
-                          confirmButtonText: "Close",
-                          confirmButtonColor: Colors.grey,
-                          type: ArtSweetAlertType.warning,
-                          title: "Sorry, you have be blocked from clocking",
-                        ),
-                      );
-                      if (artSweetAlert.isTapConfirmButton) {
-                        _artConfirmClockingDialogKey.currentState!
-                            .closeDialog();
-                      }
-                    }
-                  }, onDispose: () {
-                    _artConfirmClockingDialogKey = GlobalKey<ArtDialogState>();
-                  });
-                },
-                color: Colors.red,
-                label: "Out",
-                icon: Icons.keyboard_double_arrow_left_sharp,
-              ),
-            ),
-            title: Text(
-              "Clock In Time: $clockInTime",
-              style: Theme.of(context).textTheme.bodyText2,
-            ),
-            subtitle: Text(
-              "Clock Out Time: $clockOutTime",
-              style: Theme.of(context).textTheme.bodyText2,
-            ),
+          clockInWidget(
+            attendanceScheduleLocationViewModel,
+            attendanceClockingAttendanceViewModel,
+          ),
+          const Padding(
+            padding: homeClockerCardListTile,
+            child: Divider(),
+          ),
+          clockOutWidget(
+            attendanceScheduleLocationViewModel,
+            attendanceClockingAttendanceViewModel,
           ),
         ],
       ),
     );
+  }
+
+  ListTile clockInWidget(
+    AttendanceScheduleLocationViewModel aslViewModel,
+    AttendanceClockerClockingAttendanceViewModel acaViewModel,
+  ) {
+    return ListTile(
+      contentPadding: homeClockerCardListTile,
+      title: Text(
+        "Clock In",
+        style: Theme.of(context).textTheme.bodyText2,
+      ),
+      subtitle: (clockInTime == null)
+          ? Text(
+              "not clocked yet",
+              style: Theme.of(context).textTheme.bodyText2!.copyWith(
+                    color: Theme.of(context).primaryColor,
+                    fontStyle: FontStyle.italic,
+                  ),
+            )
+          : Text(
+              "$clockInTime",
+              style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                    fontStyle: FontStyle.italic,
+                  ),
+            ),
+      trailing: IconButton(
+        color: Colors.green,
+        icon: const Icon(Icons.keyboard_double_arrow_right_sharp),
+        onPressed: () => clockInFx(aslViewModel, acaViewModel),
+      ),
+    );
+  }
+
+  ListTile clockOutWidget(
+    AttendanceScheduleLocationViewModel aslViewModel,
+    AttendanceClockerClockingAttendanceViewModel acaViewModel,
+  ) {
+    return ListTile(
+      contentPadding: homeClockerCardListTile,
+      title: Text(
+        "Clock Out",
+        style: Theme.of(context).textTheme.bodyText2,
+      ),
+      subtitle: (clockOutTime == null)
+          ? Text(
+              "not clocked yet",
+              style: Theme.of(context).textTheme.bodyText2!.copyWith(
+                    color: Theme.of(context).primaryColor,
+                    fontStyle: FontStyle.italic,
+                  ),
+            )
+          : Text(
+              "$clockOutTime",
+              style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                    fontStyle: FontStyle.italic,
+                  ),
+            ),
+      trailing: IconButton(
+        color: Colors.red,
+        icon: const Icon(Icons.keyboard_double_arrow_left_sharp),
+        onPressed: () => clockOutFx(aslViewModel, acaViewModel),
+      ),
+    );
+  }
+
+  Future<bool> clockInFx(
+    AttendanceScheduleLocationViewModel aslViewModel,
+    AttendanceClockerClockingAttendanceViewModel acaViewModel,
+  ) async {
+    return await clockerWidgetClockButtonFx(context,
+        meetingId: widget.meeting.id!,
+        meetingLocation: widget.meeting.meetingLocation!,
+        alertMessage: "Clock In",
+        artConfirmClockingDialogKey: _artConfirmClockingDialogKey,
+        attendanceScheduleLocationViewModel: aslViewModel,
+        clocker: (allowedToClock) async {
+      if (allowedToClock) {
+        _artConfirmClockingDialogKey.currentState!.showLoader();
+        var clocked = await acaViewModel.clockInAlt(
+          clockingId: widget.clockingInfo!.id,
+        );
+        _artConfirmClockingDialogKey.currentState!.hideLoader();
+        if (clocked is NetworkSuccess) {
+          AttendanceClockingAttendanceModel acam =
+              clocked.response as AttendanceClockingAttendanceModel;
+
+          setState(() {
+            clockingInfoModel = acam;
+          });
+          // ArtDialogResponse artSweetAlert =
+          await ArtSweetAlert.show(
+            barrierDismissible: true,
+            context: context,
+            artDialogArgs: ArtDialogArgs(
+              showCancelBtn: false,
+              confirmButtonText: "Close",
+              confirmButtonColor: Colors.grey,
+              type: ArtSweetAlertType.success,
+              customColumns: [
+                Container(
+                  margin: const EdgeInsets.only(bottom: 12.0),
+                  child: Text(
+                    acam.successResponseMessage!,
+                  ),
+                ),
+              ],
+              // onConfirm: () {
+              //   // _artConfirmClockingDialogKey.currentState!.closeDialog();
+              // },
+              // onDispose: () {
+              //   _artConfirmClockingDialogKey = GlobalKey<ArtDialogState>();
+              // },
+            ),
+          );
+          // if (artSweetAlert.isTapConfirmButton) {
+          //   _artConfirmClockingDialogKey.currentState!.closeDialog();
+          // }
+        }
+        if (clocked is NetworkFailure) {
+          // ArtDialogResponse artSweetAlert =
+          await ArtSweetAlert.show(
+            barrierDismissible: true,
+            context: context,
+            artDialogArgs: ArtDialogArgs(
+              showCancelBtn: false,
+              confirmButtonText: "Close",
+              confirmButtonColor: Colors.grey,
+              type: ArtSweetAlertType.warning,
+              customColumns: [
+                Container(
+                  margin: const EdgeInsets.only(bottom: 12.0),
+                  child: Text(clocked.errorResponse.toString()),
+                )
+              ],
+              // onConfirm: () {
+              //   _artConfirmClockingDialogKey.currentState!.closeDialog();
+              // },
+              // onDispose: () {
+              //   _artConfirmClockingDialogKey = GlobalKey<ArtDialogState>();
+              // },
+            ),
+          );
+          // if (artSweetAlert.isTapConfirmButton) {
+          //   _artConfirmClockingDialogKey.currentState!.closeDialog();
+          // }
+        }
+      } else {
+        // ArtDialogResponse artSweetAlert =
+        await ArtSweetAlert.show(
+          barrierDismissible: true,
+          context: context,
+          artDialogArgs: ArtDialogArgs(
+            showCancelBtn: false,
+            confirmButtonText: "Close",
+            confirmButtonColor: Colors.grey,
+            type: ArtSweetAlertType.warning,
+            title: "Sorry, you have be blocked from clocking",
+          ),
+        );
+        // if (artSweetAlert.isTapConfirmButton) {
+        //   _artConfirmClockingDialogKey.currentState!.closeDialog();
+        // }
+      }
+    }, onDispose: () {
+      _artConfirmClockingDialogKey = GlobalKey<ArtDialogState>();
+    });
+  }
+
+  Future<bool> clockOutFx(
+    AttendanceScheduleLocationViewModel aslViewModel,
+    AttendanceClockerClockingAttendanceViewModel acaViewModel,
+  ) async {
+    return await clockerWidgetClockButtonFx(context,
+        meetingId: widget.meeting.id!,
+        meetingLocation: widget.meeting.meetingLocation!,
+        alertMessage: "Clock Out",
+        artConfirmClockingDialogKey: _artConfirmClockingDialogKey,
+        attendanceScheduleLocationViewModel: aslViewModel,
+        clocker: (allowedToClock) async {
+      if (allowedToClock) {
+        _artConfirmClockingDialogKey.currentState!.showLoader();
+        var clocked = await acaViewModel.clockOutAlt(
+          clockingId: widget.clockingInfo!.id,
+        );
+        _artConfirmClockingDialogKey.currentState!.hideLoader();
+        if (clocked is NetworkSuccess) {
+          AttendanceClockingAttendanceModel acam =
+              clocked.response as AttendanceClockingAttendanceModel;
+
+          setState(() {
+            clockingInfoModel = acam;
+          });
+          // ArtDialogResponse artSweetAlert =
+          await ArtSweetAlert.show(
+            barrierDismissible: true,
+            context: context,
+            artDialogArgs: ArtDialogArgs(
+              showCancelBtn: false,
+              confirmButtonText: "Close",
+              confirmButtonColor: Colors.grey,
+              type: ArtSweetAlertType.success,
+              customColumns: [
+                Container(
+                  margin: const EdgeInsets.only(bottom: 12.0),
+                  child: Text(
+                    acam.successResponseMessage!,
+                  ),
+                ),
+              ],
+              // onConfirm: () {
+              //   _artConfirmClockingDialogKey.currentState!.closeDialog();
+              // },
+              // onDispose: () {
+              //   _artConfirmClockingDialogKey = GlobalKey<ArtDialogState>();
+              // },
+            ),
+          );
+          // if (artSweetAlert.isTapConfirmButton) {
+          //   _artConfirmClockingDialogKey.currentState!.closeDialog();
+          // }
+        }
+        if (clocked is NetworkFailure) {
+          // ArtDialogResponse artSweetAlert =
+          await ArtSweetAlert.show(
+            barrierDismissible: true,
+            context: context,
+            artDialogArgs: ArtDialogArgs(
+              showCancelBtn: false,
+              confirmButtonText: "Close",
+              confirmButtonColor: Colors.grey,
+              type: ArtSweetAlertType.warning,
+              customColumns: [
+                Container(
+                  margin: const EdgeInsets.only(bottom: 12.0),
+                  child: Text(clocked.errorResponse.toString()),
+                )
+              ],
+              // onConfirm: () {
+              //   _artConfirmClockingDialogKey.currentState!.closeDialog();
+              // },
+              // onDispose: () {
+              //   _artConfirmClockingDialogKey = GlobalKey<ArtDialogState>();
+              // },
+            ),
+          );
+          // if (artSweetAlert.isTapConfirmButton) {
+          //   _artConfirmClockingDialogKey.currentState!.closeDialog();
+          // }
+        }
+      } else {
+        // ArtDialogResponse artSweetAlert =
+        await ArtSweetAlert.show(
+          barrierDismissible: true,
+          context: context,
+          artDialogArgs: ArtDialogArgs(
+            showCancelBtn: false,
+            confirmButtonText: "Close",
+            confirmButtonColor: Colors.grey,
+            type: ArtSweetAlertType.warning,
+            title: "Sorry, you have be blocked from clocking",
+          ),
+        );
+        // if (artSweetAlert.isTapConfirmButton) {
+        //   _artConfirmClockingDialogKey.currentState!.closeDialog();
+        // }
+      }
+    }, onDispose: () {
+      _artConfirmClockingDialogKey = GlobalKey<ArtDialogState>();
+    });
   }
 }

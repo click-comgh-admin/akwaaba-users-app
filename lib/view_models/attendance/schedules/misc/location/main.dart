@@ -19,7 +19,9 @@ class AttendanceScheduleLocationViewModel extends ChangeNotifier {
   NetworkFailure? get networkFailure => _networkFailure;
 
   AttendanceScheduleLocationViewModel() {
-    scheduleLocation();
+    if (_scheduleId != 0) {
+      scheduleLocation();
+    }
   }
 
   setLoading(bool loading) async {

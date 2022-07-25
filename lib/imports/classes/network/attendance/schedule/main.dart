@@ -21,8 +21,9 @@ class AttendanceScheduleNetwork {
     try {
       queryParameter = queryParameter ?? {};
       UserLoginModel? currentLogin = await _loginUserModelDatabase.getLogin();
+      if (currentLogin == null) return Object();
       var headers = {
-        'Authorization': 'Token ${currentLogin!.token}',
+        'Authorization': 'Token ${currentLogin.token}',
         'Content-Type': 'application/json',
       };
       var url = Uri.parse(
@@ -104,8 +105,9 @@ class AttendanceScheduleNetwork {
     try {
       queryParameter = queryParameter ?? {};
       UserLoginModel? currentLogin = await _loginUserModelDatabase.getLogin();
+      if (currentLogin == null) return Object();
       var headers = {
-        'Authorization': 'Token ${currentLogin!.token}',
+        'Authorization': 'Token ${currentLogin.token}',
         'Content-Type': 'application/json',
       };
       queryParameter['filter_memberId'] = currentLogin.memberId.toString();
@@ -193,8 +195,9 @@ class AttendanceScheduleNetwork {
     try {
       queryParameter = queryParameter ?? {};
       UserLoginModel? currentLogin = await _loginUserModelDatabase.getLogin();
+      if (currentLogin == null) return Object();
       var headers = {
-        'Authorization': 'Token ${currentLogin!.token}',
+        'Authorization': 'Token ${currentLogin.token}',
         'Content-Type': 'application/json',
       };
       queryParameter['filter_memberId'] = currentLogin.memberId.toString();

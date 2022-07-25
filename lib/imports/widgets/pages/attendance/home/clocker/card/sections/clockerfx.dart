@@ -42,7 +42,7 @@ Future<bool> clockerWidgetClockButtonFx(
                   scheduleLocationAlt.response
                       as AttendanceScheduleLocationModel;
               if (kDebugMode) {
-                print({"meetingLocation": meetingLocation});
+                // print({"meetingLocation": meetingLocation});
               }
               // double meetingLatitude = 5.661721;
               // double meetingLongitude = -0.008692;
@@ -57,7 +57,7 @@ Future<bool> clockerWidgetClockButtonFx(
               var position = await geolocatorWebFunction();
               artConfirmClockingDialogKey.currentState!.hideLoader();
               if (kDebugMode) {
-                print({"position": position});
+                // print({"position": position});
               }
               if (position == null) {
                 await ArtSweetAlert.show(
@@ -99,6 +99,8 @@ Future<bool> clockerWidgetClockButtonFx(
               if (position is Position) {
                 double positionLatitude = position.latitude;
                 double positionLongitude = position.longitude;
+                // double positionLatitude = 5.6615676;
+                // double positionLongitude = -0.0086838;
                 bool checkInRadius = await geolocatorCheckInRadius(
                   startLatitude: positionLatitude,
                   startLongitude: positionLongitude,
@@ -108,14 +110,14 @@ Future<bool> clockerWidgetClockButtonFx(
                 );
                 // bool checkInRadius = true;
                 if (kDebugMode) {
-                  print({"checkInRadius": checkInRadius});
+                  // print({"checkInRadius": checkInRadius});
                 }
                 if (checkInRadius) {
                   allowedToClock = true;
                   clocker(allowedToClock);
                 } else {
                   await ArtSweetAlert.show(
-                    barrierDismissible: false,
+                    barrierDismissible: true,
                     context: context,
                     artDialogArgs: ArtDialogArgs(
                       showCancelBtn: false,
@@ -188,7 +190,7 @@ Future<bool> clockerWidgetClockButtonFx(
           allowedToClock = true;
           clocker(allowedToClock);
         },
-        onDispose: onDispose,
+        // onDispose: onDispose,
       ),
     );
   }

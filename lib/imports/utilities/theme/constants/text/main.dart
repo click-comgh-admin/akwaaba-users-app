@@ -21,4 +21,4 @@ TextStyle Function(
     List<Shadow>? shadows,
     TextBaseline? textBaseline,
     TextStyle? textStyle,
-    double? wordSpacing}) textStyleConstantTheme = GoogleFonts.poppins;
+    double? wordSpacing}) textStyleConstantTheme = GoogleFonts.lato;

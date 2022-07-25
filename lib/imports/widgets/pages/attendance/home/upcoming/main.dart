@@ -13,7 +13,7 @@ class UpcomingAttendancePagesHomeWidget extends StatefulWidget {
 
 class _UpcomingAttendancePagesHomeWidgetState
     extends State<UpcomingAttendancePagesHomeWidget> {
-  String title = "Upcoming Meeting(s)/ Event(s)";
+  String title = "Upcoming Meeting/ Event";
   ScrollController scrollController = ScrollController();
 
   @override

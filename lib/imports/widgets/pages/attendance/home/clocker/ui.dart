@@ -70,6 +70,7 @@ class _UiClockerAttendancePagesHomeWidgetState
             child: ListView(
                 controller: scrollController,
                 scrollDirection: Axis.vertical,
+                addAutomaticKeepAlives: true,
                 children: attendanceSchedules.map((meeting) {
                   return Padding(
                     padding: const EdgeInsets.only(bottom: 8.0),

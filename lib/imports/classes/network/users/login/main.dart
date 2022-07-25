@@ -86,6 +86,7 @@ class LoginNetwork {
   static Future<Object> verifyLogin() async {
     try {
       UserLoginModel? currentLogin = await _loginUserModelDatabase.getLogin();
+      if (currentLogin == null) return Object();
       var headers = {
         'Content-Type': 'application/json',
       };
@@ -93,7 +94,7 @@ class LoginNetwork {
       var request = http.Request('POST', url);
 
       Map<String, String> requestBody = {
-        "token": currentLogin!.token!
+        "token": currentLogin.token!
       };
       // print({"requestBody": requestBody});
       

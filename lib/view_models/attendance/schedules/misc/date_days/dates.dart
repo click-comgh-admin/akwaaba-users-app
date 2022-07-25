@@ -20,7 +20,9 @@ class AttendanceScheduleDateViewModel extends ChangeNotifier {
 
   AttendanceScheduleDateViewModel({int scheduleId = 0}) {
     setScheduleId(scheduleId);
-    scheduleDates();
+    if (_scheduleId != 0) {
+      scheduleDates();
+    }
   }
 
   setLoading(bool loading) async {

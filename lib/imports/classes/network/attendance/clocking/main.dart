@@ -21,8 +21,9 @@ class AttendanceClockingAttendanceNetwork {
     try {
       queryParameter = queryParameter ?? {};
       UserLoginModel? currentLogin = await _loginUserModelDatabase.getLogin();
+      if (currentLogin == null) return Object();
       var headers = {
-        'Authorization': 'Token ${currentLogin!.token}',
+        'Authorization': 'Token ${currentLogin.token}',
         'Content-Type': 'application/json',
       };
       var url = Uri.parse(
@@ -106,8 +107,9 @@ class AttendanceClockingAttendanceNetwork {
     try {
       queryParameters = queryParameters ?? {};
       UserLoginModel? currentLogin = await _loginUserModelDatabase.getLogin();
+      if (currentLogin == null) return Object();
       var headers = {
-        'Authorization': 'Token ${currentLogin!.token}',
+        'Authorization': 'Token ${currentLogin.token}',
         'Content-Type': 'application/json',
       };
       queryParameters['meetingEventId'] = scheduleId.toString();
@@ -196,8 +198,9 @@ class AttendanceClockingAttendanceNetwork {
     try {
       queryParameter = queryParameter ?? {};
       UserLoginModel? currentLogin = await _loginUserModelDatabase.getLogin();
+      if (currentLogin == null) return Object();
       var headers = {
-        'Authorization': 'Token ${currentLogin!.token}',
+        'Authorization': 'Token ${currentLogin.token}',
         'Content-Type': 'application/json',
       };
       var url = Uri.parse(

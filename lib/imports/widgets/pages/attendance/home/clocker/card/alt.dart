@@ -163,11 +163,12 @@ class _UiCardAltClockerAttendancePagesHomeWidgetState
                       ),
                     ],
                   ),
-                  Column(
+                  Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text("Start time: $startTime"),
-                      Text("End time: $closeTime"),
+                      Text("Starts: $startTime"),
+                      const Text("  -  "),
+                      Text("Ends: $closeTime"),
                     ],
                   ),
                   FutureBuilder(
@@ -200,14 +201,14 @@ class _UiCardAltClockerAttendancePagesHomeWidgetState
                           // });
                           return Column(
                             children: [
+                              ClockingUiCardClockerAttendancePagesHomeWidget(
+                                meeting: widget.meeting,
+                                clockingInfo: userClockingInfo,
+                              ),
                               BreaksUiCardClockerAttendancePagesHomeWidget(
                                 meeting: widget.meeting,
                                 clockingInfo: userClockingInfo,
                               ),
-                              ClockingUiCardClockerAttendancePagesHomeWidget(
-                                meeting: widget.meeting,
-                                clockingInfo: userClockingInfo,
-                              )
                             ],
                           );
                         }
@@ -266,15 +267,17 @@ class _UiCardAltClockerAttendancePagesHomeWidgetState
         await scheduleBreak.scheduleBreakAlt(widget.meeting.id!);
 
     if (scheduleBreakAlt is NetworkSuccess) {
-      AttendanceScheduleBreakModel attendanceScheduleBreak =
-          scheduleBreakAlt.response as AttendanceScheduleBreakModel;
-      // print({"attendanceScheduleDates": attendanceScheduleDates});
-      String startBreak = formatTimeDatetimeFunction(DateTime.parse(
-          "${meetingDate}T${attendanceScheduleBreak.startBreak!}"));
-      String endBreak = formatTimeDatetimeFunction(DateTime.parse(
-          "${meetingDate}T${attendanceScheduleBreak.endBreak!}"));
+      if (scheduleBreakAlt.response != null) {
+        AttendanceScheduleBreakModel attendanceScheduleBreak =
+            scheduleBreakAlt.response as AttendanceScheduleBreakModel;
+        // print({"attendanceScheduleDates": attendanceScheduleDates});
+        String startBreak = formatTimeDatetimeFunction(DateTime.parse(
+            "${meetingDate}T${attendanceScheduleBreak.startBreak!}"));
+        String endBreak = formatTimeDatetimeFunction(DateTime.parse(
+            "${meetingDate}T${attendanceScheduleBreak.endBreak!}"));
 
-      _meetingBreaks = WPAHmeetingBreaks(start: startBreak, end: endBreak);
+        _meetingBreaks = WPAHmeetingBreaks(start: startBreak, end: endBreak);
+      }
     }
   }
 

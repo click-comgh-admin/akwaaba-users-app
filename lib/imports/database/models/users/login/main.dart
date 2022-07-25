@@ -7,6 +7,7 @@ class LoginUserModelDatabase extends HiveDb<UserLoginModel> {
 
   Future<UserLoginModel?>? getLogin() async {
     List<UserLoginModel> logins = await values;
+    // print({"logins": logins});
     if (logins.isNotEmpty) {
       return logins.first;
     }

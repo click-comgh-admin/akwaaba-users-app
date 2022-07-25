@@ -19,7 +19,9 @@ class AttendanceScheduleBreakViewModel extends ChangeNotifier {
   NetworkFailure? get networkFailure => _networkFailure;
 
   AttendanceScheduleBreakViewModel() {
-    scheduleBreak();
+    if (_scheduleId != 0) {
+      scheduleBreak();
+    }
   }
 
   setLoading(bool loading) async {

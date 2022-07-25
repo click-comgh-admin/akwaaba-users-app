@@ -17,11 +17,11 @@ Map<String, Object> offlineProfilePictureFunction(String url) {
     }
     return {"url": url, "inProduction": inProd};
   } else {
-    String offlineUrl = "/images/offline_profile_picture.png";
+    String offlineUrl = "assets/images/offline_profile_picture.png";
     return {"url": offlineUrl, "inProduction": inProd};
   }
 }
 
 String placeholderProfilePictureFunction() {
-  return "/images/placeholder_profile_picture.png";
+  return "assets/images/placeholder_profile_picture.png";
 }

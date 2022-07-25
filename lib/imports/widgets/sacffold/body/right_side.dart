@@ -49,7 +49,8 @@ class _RightSideBodyScaffoldWidgetState
     return Container(
       padding: pAll8PaddingMarginConstantsUtilities,
       height: screenHeight,
-      width: ResponsiveWrapper.of(context).isSmallerThan(bigDesktopDevice)
+      // width: ResponsiveWrapper.of(context).isSmallerThan(bigDesktopDevice)
+      width: ResponsiveWrapper.of(context).isSmallerThan(DESKTOP)
           ? 0
           : contentWidth / 3,
       child: SingleChildScrollView(

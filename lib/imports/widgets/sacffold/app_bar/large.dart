@@ -61,16 +61,23 @@ class _LargeAppBarScaffoldWidgetState extends State<LargeAppBarScaffoldWidget> {
             children: [
               const ResponsiveVisibility(
                 hiddenWhen: [
-                  Condition.largerThan(name: DESKTOP),
+                  Condition.largerThan(name: TABLET),
                 ],
                 visibleWhen: [
-                  Condition.smallerThan(name: DESKTOP),
+                  Condition.smallerThan(name: TABLET),
                 ],
                 child: DrawerButtonSidebarBodyScaffoldWidget(),
               ),
               sizeboxWidth10AppbarScaffoldConstantsUtilities,
               sizeboxWidth10AppbarScaffoldConstantsUtilities,
-              widget.title!,
+              SizedBox(
+                width: ResponsiveValue(context, defaultValue: 250.0, valueWhen: [
+                  const Condition.smallerThan(name: DESKTOP, value: 300.0),
+                  const Condition.smallerThan(name: TABLET, value: 115.0),
+                  const Condition.smallerThan(name: MOBILE, value: 112.0),
+                ]).value,
+                child: widget.title,
+              ),
             ],
           ),
           Row(

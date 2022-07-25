@@ -1,5 +1,7 @@
 import 'package:akwaaba_user_app/imports/utilities/constants/padding_margin/main.dart';
 import 'package:akwaaba_user_app/imports/utilities/constants/scaffold/main.dart';
+import 'package:akwaaba_user_app/imports/widgets/sacffold/body/sidebar/brand.dart';
+import 'package:akwaaba_user_app/imports/widgets/sacffold/body/sidebar/content.dart';
 import 'package:akwaaba_user_app/imports/widgets/sacffold/body/sidebar/item.dart';
 import 'package:akwaaba_user_app/imports/widgets/sacffold/body/sidebar/list.dart';
 import 'package:akwaaba_user_app/models/sidebar/items/main.dart';
@@ -42,55 +44,14 @@ class _MainSidebarBodyScaffoldWidgetState
 
   @override
   Widget build(BuildContext context) {
-    final screenSize = MediaQuery.of(context).size;
-    final screenHeight = screenSize.height;
-
-    SidebarItemViewModel sidebarItemViewModelCtx =
-        context.watch<SidebarItemViewModel>();
     return Column(
       children: [
-        SizedBox(
-          height: scaffoldAppbarBodyHeight,
-          child: Padding(
-            padding: pAll8PaddingMarginConstantsUtilities,
-            child: Text(
-              "Akwaaba App",
-              style: GoogleFonts.antic(
-                fontWeight: FontWeight.bold,
-              ),
-              textScaleFactor: 2,
-            ),
-          ),
-        ),
+        const MainSidebarBrandBodyScaffoldWidget(),
         SingleChildScrollView(
           controller: scrollController,
-          child: ResponsiveVisibility(
-            hiddenWhen: const [
-              Condition.smallerThan(name: TABLET)
-            ],
-            child: Container(
-              alignment: Alignment.topLeft,
-              height: screenHeight -
-                  (scaffoldAppbarBodyHeight +
-                      (pAll8PaddingMarginConstantsUtilities.top * 2)),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: sidebarItemsMap.keys.map(
-                  (key) {
-                    SidebarItemModel item = sidebarItemsMap[key]!;
-                    return SidebarItemBodyScaffoldWidget(
-                      title: item.title!,
-                      icon: item.icon!,
-                      onTap: () {
-                        AutoRouter.of(context).push(item.route!);
-                      },
-                      selected: sidebarItemViewModelCtx.item == item,
-                    );
-                  },
-                ).toList(),
-              ),
-            ),
+          child: const ResponsiveVisibility(
+            hiddenWhen: [Condition.smallerThan(name: TABLET)],
+            child: MainSidebarContentBodyScaffoldWidget(),
           ),
         )
       ],

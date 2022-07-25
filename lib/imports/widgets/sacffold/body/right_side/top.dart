@@ -30,7 +30,7 @@ class _TopRightsideBodyStateScaffoldWidget
             SizedBox(
               width: double.infinity,
               child: Image.asset(
-                "images/dashboard/plant.jpg",
+                "assets/images/dashboard/plant.jpg",
                 fit: BoxFit.fitWidth,
               ),
             ),

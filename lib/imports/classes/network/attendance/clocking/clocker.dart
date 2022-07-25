@@ -20,8 +20,9 @@ class AttendanceClockerClockingAttendanceNetwork {
     try {
       queryParameter = queryParameter ?? {};
       UserLoginModel? currentLogin = await _loginUserModelDatabase.getLogin();
+      if (currentLogin == null) return Object();
       var headers = {
-        'Authorization': 'Token ${currentLogin!.token}',
+        'Authorization': 'Token ${currentLogin.token}',
         'Content-Type': 'application/json',
       };
 
@@ -103,8 +104,9 @@ class AttendanceClockerClockingAttendanceNetwork {
     try {
       queryParameter = queryParameter ?? {};
       UserLoginModel? currentLogin = await _loginUserModelDatabase.getLogin();
+      if (currentLogin == null) return Object();
       var headers = {
-        'Authorization': 'Token ${currentLogin!.token}',
+        'Authorization': 'Token ${currentLogin.token}',
         'Content-Type': 'application/json',
       };
 

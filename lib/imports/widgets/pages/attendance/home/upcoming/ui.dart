@@ -1,4 +1,3 @@
-
 import 'package:akwaaba_user_app/imports/widgets/errors/network/main.dart';
 import 'package:akwaaba_user_app/imports/widgets/loading/main.dart';
 import 'package:akwaaba_user_app/imports/widgets/pages/attendance/home/upcoming/card.dart';
@@ -64,6 +63,7 @@ class _UiUpcomingAttendancePagesHomeWidgetState
     return listLength > 0
         ? ListView(
             controller: scrollController,
+            addAutomaticKeepAlives: true,
             scrollDirection: Axis.horizontal,
             children: attendanceSchedules
                 .map((meeting) => Padding(
@@ -89,4 +89,3 @@ class _UiUpcomingAttendancePagesHomeWidgetState
           );
   }
 }
-

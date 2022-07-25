@@ -13,7 +13,7 @@ class ClockerAttendancePagesHomeWidget extends StatefulWidget {
 
 class _ClockerAttendancePagesHomeWidgetState
     extends State<ClockerAttendancePagesHomeWidget> {
-  String title = "Today's Meeting(s)/ Event(s)";
+  String title = "Today's Meeting/ Event";
 
   @override
   Widget build(BuildContext context) {

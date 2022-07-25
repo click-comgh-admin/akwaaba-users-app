@@ -25,7 +25,7 @@ class UiCardUpcomingAttendancePagesHomeWidget extends StatefulWidget {
 }
 
 class _UiCardUpcomingAttendancePagesHomeWidgetState
-    extends State<UiCardUpcomingAttendancePagesHomeWidget> {
+    extends State<UiCardUpcomingAttendancePagesHomeWidget> with AutomaticKeepAliveClientMixin {
   String? upcomingDate;
   bool calledMeetingDate = false;
   String meetingDate = "-";
@@ -42,6 +42,8 @@ class _UiCardUpcomingAttendancePagesHomeWidgetState
     }
     super.initState();
   }
+
+  
 
   Future<String> meetingDates(
     BuildContext ctx, {
@@ -76,6 +78,7 @@ class _UiCardUpcomingAttendancePagesHomeWidgetState
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     String meetingType = widget.meeting.type == 1 ? 'Meeting' : 'Event';
     int? meetingSpan = widget.meeting.meetingSpan;
     String meetingSpanStr = widget.meeting.meetingSpan == 1
@@ -249,4 +252,7 @@ class _UiCardUpcomingAttendancePagesHomeWidgetState
       meetingLocationStr = meetingPlaceTypeModel.name!;
     }
   }
+  
+  @override
+  bool get wantKeepAlive => true;
 }

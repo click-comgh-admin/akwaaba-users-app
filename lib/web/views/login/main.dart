@@ -48,7 +48,7 @@ class _LoginPageWebState extends State<LoginPageWeb> {
         backgroundColor: Theme.of(context).primaryColor,
         actions: const [
           ThemeSettingsWidget(),
-        ],
+        ],elevation: 0,
       ),
       body: SizedBox(
         width: screenWidth,
@@ -77,13 +77,13 @@ class _LoginPageWebState extends State<LoginPageWeb> {
                           Condition.smallerThan(name: PHONE),
                         ],
                         child: SizedBox(
-                          width: 300.00,
-                          height: 300.00,
+                          width: 200.00,
+                          height: 200.00,
                           child: Padding(
                             padding: const EdgeInsets.only(bottom: 20.0),
                             child: LoginIntroWeb(
                               image: Image.asset(
-                                "images/login/intro.jpg",
+                                "assets/images/icons/icon.png",
                                 fit: BoxFit.contain,
                               ),
                             ),
@@ -113,7 +113,7 @@ class _LoginPageWebState extends State<LoginPageWeb> {
                   height: screenHeight + 20,
                   child: LoginIntroWeb(
                     image: Image.asset(
-                      "images/login/intro.jpg",
+                      "assets/images/login/intro.jpg",
                       // fit: BoxFit.cover,
                     ),
                   ),

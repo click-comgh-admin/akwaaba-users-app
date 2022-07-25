@@ -7,6 +7,8 @@ import 'package:akwaaba_user_app/imports/widgets/sacffold/body/sidebar/drawer.da
 import 'package:akwaaba_user_app/imports/widgets/sacffold/body/sidebar/list.dart';
 import 'package:akwaaba_user_app/view_models/scaffold/main.dart';
 import 'package:akwaaba_user_app/view_models/sidebar/items/main.dart';
+import 'package:auto_route/auto_route.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -49,6 +51,11 @@ class _HomePageWebState extends State<HomePageWeb> {
           ),
         ],
       ),
+      floatingActionButton: FloatingActionButton.small(
+          onPressed: () {
+            AutoRouter.of(context).push(const HomeRouteWeb());
+          },
+          child: const Icon(CupertinoIcons.refresh)),
     );
   }
 }

@@ -47,7 +47,6 @@ class _WebAppState extends State<WebApp> {
     FlutterNativeSplash.remove();
   }
 
-
   themeListener() {
     if (mounted) {
       setState(() {});

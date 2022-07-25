@@ -1,6 +1,6 @@
 {
-    "name": "Akwaaba User App",
-    "short_name": "akwaaba_user_app",
+    "name": "Akwaaba User",
+    "short_name": "Akwaaba User",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#e38c00",

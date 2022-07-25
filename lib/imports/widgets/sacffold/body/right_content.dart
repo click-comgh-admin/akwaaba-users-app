@@ -1,3 +1,4 @@
+import 'package:akwaaba_user_app/imports/functions/login/main.dart';
 import 'package:akwaaba_user_app/imports/utilities/constants/scaffold/main.dart';
 import 'package:akwaaba_user_app/imports/widgets/sacffold/app_bar/large.dart';
 import 'package:akwaaba_user_app/imports/widgets/sacffold/body/main.dart';
@@ -27,11 +28,14 @@ class _RightContentBodyScaffoldWidgetState
     extends State<RightContentBodyScaffoldWidget> {
   @override
   Widget build(BuildContext context) {
+    autoLogout(context);
     return Column(
       mainAxisSize: MainAxisSize.max,
       children: [
         LargeAppBarScaffoldWidget(
-            title: widget.title, showSearch: widget.showSearch),
+          title: widget.title,
+          showSearch: widget.showSearch,
+        ),
         Padding(
           padding: const EdgeInsets.symmetric(
             horizontal: scaffoldMainBodyGutter / 4,

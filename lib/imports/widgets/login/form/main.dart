@@ -267,7 +267,7 @@ class _FormLoginWidgetState extends State<FormLoginWidget> {
                               confirmButtonText: "Close",
                               confirmButtonColor: Colors.grey,
                               type: ArtSweetAlertType.warning,
-                              title: "Do you want to save the changes?",
+                              title: "Login failed!",
                               customColumns: nonFieldErrors
                                   .map((e) => Padding(
                                         padding:

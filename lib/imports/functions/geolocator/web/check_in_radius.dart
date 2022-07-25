@@ -28,7 +28,7 @@ Future<bool> geolocatorCheckInRadius({
   double distanceBetweenInKiloMeters = distanceBetweenInMeters / 1000;
 
   // print({
-  //   "distance": distance,
+  //   // "distance": distance,
   //   "distanceBetweenInMeters": distanceBetweenInMeters,
   //   "distanceBetweenInKiloMeters": distanceBetweenInKiloMeters,
   //   "radius": radius

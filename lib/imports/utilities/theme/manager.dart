@@ -9,11 +9,15 @@ class ThemeManager with ChangeNotifier {
 
   ThemeMode get themeMode {
     getTheme!.then((value) {
-      bool inDarkMode = value!.inDarkMode;
-      if (inDarkMode) {
-        _themeMode = ThemeMode.dark;
-      } else {
+      if (value == null) {
         _themeMode = ThemeMode.light;
+      } else {
+        bool inDarkMode = value.inDarkMode;
+        if (inDarkMode) {
+          _themeMode = ThemeMode.dark;
+        } else {
+          _themeMode = ThemeMode.light;
+        }
       }
       return _themeMode;
     });

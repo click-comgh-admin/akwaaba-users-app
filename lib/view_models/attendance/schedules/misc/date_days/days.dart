@@ -19,7 +19,9 @@ class AttendanceScheduleDayViewModel extends ChangeNotifier {
   NetworkFailure? get networkFailure => _networkFailure;
 
   AttendanceScheduleDayViewModel() {
-    scheduleDays();
+    if (_scheduleId != 0) {
+      scheduleDays();
+    }
   }
 
   setLoading(bool loading) async {

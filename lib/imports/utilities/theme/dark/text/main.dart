@@ -21,12 +21,12 @@ TextTheme textDarkThemeData = TextTheme(
     color: Colors.white.withOpacity(0.5),
   ),
   caption: textStyleConstantTheme(
-    color: Colors.black.withOpacity(0.4),
+    color: Colors.white.withOpacity(0.4),
   ),
   bodyText1: textStyleConstantTheme(
     color: Colors.white70,
   ),
   bodyText2: textStyleConstantTheme(
-    color: Colors.white60,
+    color: Colors.white70,
   ),
 );

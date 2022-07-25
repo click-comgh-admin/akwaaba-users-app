@@ -47,7 +47,7 @@ class _MainBodyScaffoldWidgetState extends State<MainBodyScaffoldWidget> {
     return Container(
       padding: pAll8PaddingMarginConstantsUtilities,
       height: screenHeight - scaffoldAppbarBodyHeight,
-      width: ResponsiveWrapper.of(context).isSmallerThan(bigDesktopDevice)
+      width: ResponsiveWrapper.of(context).isSmallerThan(DESKTOP)
           ? ResponsiveWrapper.of(context).isSmallerThan(TABLET)
               ? contentWidth + scaffoldSidebarWidth
               : contentWidth

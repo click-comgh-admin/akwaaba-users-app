@@ -31,7 +31,7 @@ class _ActionSearchAppBarScaffoldWidgetState
 
   final _searchController = TextEditingController();
 
-  final double width = 350.00;
+  final double width = 300.00;
 
   @override
   Widget build(BuildContext context) {
