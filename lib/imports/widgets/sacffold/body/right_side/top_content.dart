@@ -1,6 +1,6 @@
 import 'package:akwaaba_user_app/imports/functions/datetime/main.dart';
-import 'package:akwaaba_user_app/imports/utilities/constants/padding_margin/main.dart';
-import 'package:akwaaba_user_app/imports/utilities/constants/sizebox/main.dart';
+import 'package:akwaaba_user_app/imports/utilities/constants/sizing/padding_margin/main.dart';
+import 'package:akwaaba_user_app/imports/utilities/constants/sizing/sizebox/main.dart';
 import 'package:akwaaba_user_app/imports/widgets/text_button/main.dart';
 import 'package:akwaaba_user_app/models/users/login/main.dart';
 import 'package:flutter/material.dart';

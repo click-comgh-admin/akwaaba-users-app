@@ -1,4 +1,5 @@
 import 'package:akwaaba_user_app/imports/config/routes.gr.dart';
+import 'package:akwaaba_user_app/imports/utilities/constants/sizing/responsive/font_size/main.dart';
 import 'package:akwaaba_user_app/imports/widgets/pages/attendance/home/clocker/main.dart';
 import 'package:akwaaba_user_app/imports/widgets/pages/attendance/home/upcoming/main.dart';
 import 'package:akwaaba_user_app/imports/widgets/sacffold/body/right_content.dart';
@@ -42,12 +43,19 @@ class _HomePageWebState extends State<HomePageWeb> {
       // appBar: AppBarScaffoldWidget(titleText: "Home Page",),
       drawer: const SidebarDrawerBodyScaffoldWidget(),
       body: Row(
-        children: const [
-          SideBarBodyScaffoldWidget(),
+        children: [
+          const SideBarBodyScaffoldWidget(),
           RightContentBodyScaffoldWidget(
-            title: Text("Home Page"),
-            topMainChild: UpcomingAttendancePagesHomeWidget(),
-            child: ClockerAttendancePagesHomeWidget(),
+            title: Text(
+              "Home Page",
+              style: Theme.of(context).textTheme.bodyText2!.copyWith(
+                    fontSize: body2FontSizeResponsiveSizingContantsUtilities(
+                      context,
+                    ),
+                  ),
+            ),
+            topMainChild: const UpcomingAttendancePagesHomeWidget(),
+            child: const ClockerAttendancePagesHomeWidget(),
           ),
         ],
       ),

@@ -1,4 +1,5 @@
 import 'package:akwaaba_user_app/imports/config/routes.gr.dart';
+import 'package:akwaaba_user_app/imports/utilities/constants/sizing/responsive/font_size/main.dart';
 import 'package:akwaaba_user_app/imports/utilities/theme/constants/search/main.dart';
 import 'package:akwaaba_user_app/imports/widgets/sacffold/body/right_content.dart';
 import 'package:akwaaba_user_app/imports/widgets/sacffold/body/sidebar.dart';
@@ -47,7 +48,14 @@ class _SearchPageWebState extends State<SearchPageWeb> {
           const SideBarBodyScaffoldWidget(),
           RightContentBodyScaffoldWidget(
             showSearch: false,
-            title: const Text("Search Page"),
+            title: Text(
+              "Search Page",
+              style: Theme.of(context).textTheme.bodyText2!.copyWith(
+                    fontSize: body2FontSizeResponsiveSizingContantsUtilities(
+                      context,
+                    ),
+                  ),
+            ),
             topMainChild: Container(),
             child: Form(
               key: formKey,

@@ -1,5 +1,7 @@
 import 'package:akwaaba_user_app/imports/classes/network/base/api/status.dart';
 import 'package:akwaaba_user_app/imports/functions/datetime/main.dart';
+import 'package:akwaaba_user_app/imports/functions/device_info/main.dart';
+import 'package:akwaaba_user_app/imports/utilities/constants/sizing/responsive/font_size/main.dart';
 import 'package:akwaaba_user_app/imports/widgets/errors/network/main.dart';
 import 'package:akwaaba_user_app/imports/widgets/pages/attendance/home/clocker/card/sections/clockerfx.dart';
 import 'package:akwaaba_user_app/imports/widgets/text_button/main.dart';
@@ -7,6 +9,7 @@ import 'package:akwaaba_user_app/models/attendance/clocking/attendance/details/m
 import 'package:akwaaba_user_app/models/attendance/clocking/attendance/main.dart';
 import 'package:akwaaba_user_app/models/attendance/schedule/main.dart';
 import 'package:akwaaba_user_app/view_models/attendance/clocking/clockers.dart';
+import 'package:akwaaba_user_app/view_models/attendance/devices/main.dart';
 import 'package:akwaaba_user_app/view_models/attendance/schedules/misc/location/main.dart';
 import 'package:art_sweetalert/art_sweetalert.dart';
 import 'package:flutter/material.dart';
@@ -33,6 +36,7 @@ class _BreaksUiCardClockerAttendancePagesHomeWidgetState
 
   String startBreakTime = "__:__ __";
   String endBreakTime = "__:__ __";
+  Map<String, dynamic>? deviceInfo;
 
   @override
   void dispose() {
@@ -44,6 +48,7 @@ class _BreaksUiCardClockerAttendancePagesHomeWidgetState
   initState() {
     super.initState();
     scrollController.addListener(scrollControllerListener);
+    deviceInfoFunction().then((value) => deviceInfo = value);
   }
 
   scrollControllerListener() {
@@ -92,6 +97,8 @@ class _BreaksUiCardClockerAttendancePagesHomeWidgetState
     AttendanceClockerClockingAttendanceViewModel
         attendanceClockingAttendanceViewModel =
         context.watch<AttendanceClockerClockingAttendanceViewModel>();
+    ClockingDeviceViewModel clockingDeviceViewModel =
+        context.watch<ClockingDeviceViewModel>();
     setClockingInfoModel(attendanceClockingAttendanceViewModel);
 
     if (attendanceClockingAttendanceViewModel.clockingInfo != null) {
@@ -135,7 +142,8 @@ class _BreaksUiCardClockerAttendancePagesHomeWidgetState
                       artConfirmClockingDialogKey: _artConfirmClockingDialogKey,
                       attendanceScheduleLocationViewModel:
                           attendanceScheduleLocationViewModel,
-                      clocker: (allowedToClock) async {
+                      clockingDeviceViewModel: clockingDeviceViewModel,
+                      deviceInfo: deviceInfo!, clocker: (allowedToClock) async {
                     if (allowedToClock) {
                       _artConfirmClockingDialogKey.currentState!.showLoader();
                       var clocked = await attendanceClockingAttendanceViewModel
@@ -259,7 +267,8 @@ class _BreaksUiCardClockerAttendancePagesHomeWidgetState
                       artConfirmClockingDialogKey: _artConfirmClockingDialogKey,
                       attendanceScheduleLocationViewModel:
                           attendanceScheduleLocationViewModel,
-                      clocker: (allowedToClock) async {
+                      clockingDeviceViewModel: clockingDeviceViewModel,
+                      deviceInfo: deviceInfo!, clocker: (allowedToClock) async {
                     if (allowedToClock) {
                       _artConfirmClockingDialogKey.currentState!.showLoader();
                       var clocked = await attendanceClockingAttendanceViewModel
@@ -371,11 +380,19 @@ class _BreaksUiCardClockerAttendancePagesHomeWidgetState
             ),
             title: Text(
               "Start Time: $startBreakTime",
-              style: Theme.of(context).textTheme.bodyText2,
+              style: Theme.of(context).textTheme.bodyText2!.copyWith(
+                    fontSize: body2FontSizeResponsiveSizingContantsUtilities(
+                      context,
+                    ),
+                  ),
             ),
             subtitle: Text(
               "End Time: $endBreakTime",
-              style: Theme.of(context).textTheme.bodyText2,
+              style: Theme.of(context).textTheme.bodyText2!.copyWith(
+                    fontSize: body2FontSizeResponsiveSizingContantsUtilities(
+                      context,
+                    ),
+                  ),
             ),
           ),
         ],

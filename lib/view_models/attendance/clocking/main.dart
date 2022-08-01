@@ -86,18 +86,26 @@ class AttendanceClockingAttendanceViewModel extends ChangeNotifier {
     _networkFailure = networkFailure;
   }
 
-  Future<bool> memberAttendance({int? meetingId}) async {
+  Future<bool> memberAttendance(bool details, {int? meetingId}) async {
     UserLoginModel? currentLogin = await _loginUserModelDatabase.getLogin();
     setLoading(true);
     var clockingInfosSuccess = false;
     var response = await AttendanceClockingAttendanceNetwork.memberAttendance(
-        meetingId ?? scheduleId,
-        queryParameters: {"memberId": currentLogin!.memberId.toString()});
+      meetingId ?? scheduleId,
+      queryParameters: {"memberId": currentLogin!.memberId.toString()},
+      // details: details,
+    );
     // print({"response": response});
     if (response is NetworkSuccess) {
-      setClockingInfoModel(
-        response.response as AttendanceClockingAttendanceModel,
-      );
+      if (details) {
+        setClockingInfoDetailsModel(
+          response.response as AttendanceClockingAttendanceDetailsModel,
+        );
+      } else {
+        setClockingInfoModel(
+          response.response as AttendanceClockingAttendanceModel,
+        );
+      }
       clockingInfosSuccess = true;
     }
     if (response is NetworkFailure) {

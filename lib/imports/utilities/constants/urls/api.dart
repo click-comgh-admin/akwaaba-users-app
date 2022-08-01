@@ -20,13 +20,21 @@ const String MY_CONNECTIONS_API_ENDPOINTS =
 /// ____
 /// * MY_UPCOMMING_ATTENDANCE_SCHEDULES_API_ENDPOINTS
 /// ____
-/// * MY_CONNECTORS_API_ENDPOINTS
+/// * MY_TODAY_ATTENDANCE_SCHEDULES_API_ENDPOINTS
+/// ____
+/// * MY_NOW_ATTENDANCE_SCHEDULES_API_ENDPOINTS
+/// ____
+/// * MY_DATE_ATTENDANCE_SCHEDULES_API_ENDPOINTS
 const String ONE_ATTENDANCE_SCHEDULES_API_ENDPOINTS =
         "attendance/meeting-event/schedule",
     MY_UPCOMMING_ATTENDANCE_SCHEDULES_API_ENDPOINTS =
         "attendance/meeting-event/schedule/upcoming",
     MY_TODAY_ATTENDANCE_SCHEDULES_API_ENDPOINTS =
-        "attendance/meeting-event/schedule/today";
+        "attendance/meeting-event/schedule/today",
+    MY_NOW_ATTENDANCE_SCHEDULES_API_ENDPOINTS =
+        "attendance/meeting-event/schedule/now",
+    MY_DATE_ATTENDANCE_SCHEDULES_API_ENDPOINTS =
+        "attendance/meeting-event/schedule/date";
 
 /// ATTENDANCE SCHEDULE DAYS/DATES ENDPOINTS
 /// * DATES_ATTENDANCE_SCHEDULES_API_ENDPOINTS
@@ -83,3 +91,12 @@ const String CLOCK_IN_MEMBER_CLOCKING_ATTENDANCE_SCHEDULES_API_ENDPOINTS =
         "attendance/meeting-event/attendance/bulk-clocking",
     ATTENDANCE_MEMBER_CLOCKING_ATTENDANCE_SCHEDULES_API_ENDPOINTS =
         "attendance/meeting-event/attendance";
+
+/// CLOCKING DEVICE ENDPOINTS
+/// * CLOCKING_DEVICE_API_ENDPOINTS
+/// ____
+/// * CLOCKING_DEVICE_REQUEST_API_ENDPOINTS
+const String CLOCKING_DEVICE_API_ENDPOINTS =
+    "attendance/clocking-device/settings";
+const String CLOCKING_DEVICE_REQUEST_API_ENDPOINTS =
+    "attendance/clocking-device/request";

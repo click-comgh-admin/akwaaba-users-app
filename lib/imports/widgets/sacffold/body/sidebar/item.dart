@@ -1,3 +1,4 @@
+import 'package:akwaaba_user_app/imports/utilities/constants/sizing/responsive/font_size/main.dart';
 import 'package:flutter/material.dart';
 
 class SidebarItemBodyScaffoldWidget extends StatefulWidget {
@@ -41,6 +42,9 @@ class _SidebarItemBodyScaffoldWidgetState
               color: widget.selected
                   ? Theme.of(context).primaryColor
                   : Theme.of(context).iconTheme.color,
+              fontSize: body2FontSizeResponsiveSizingContantsUtilities(
+                context,
+              ),
             ),
           ),
           onTap: widget.onTap,

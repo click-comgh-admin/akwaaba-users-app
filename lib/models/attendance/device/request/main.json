@@ -1,0 +1,13 @@
+{
+  "id": 21,
+  "clientId": 4,
+  "memberId": 16,
+  "memberAccountType": 1,
+  "systemDevice": 1,
+  "deviceType": "deviceType",
+  "deviceId": "deviceId",
+  "approved": false,
+  "approvedBy": 0,
+  "creationDate": "2022-07-29T23:04:11.669759Z",
+  "SUCCESS_RESPONSE_MESSAGE": "User Device Created Successfully"
+}

@@ -55,7 +55,7 @@ class AttendanceScheduleDaysAndDatesNetwork {
 
         return NetworkSuccess(
           response: dates,
-          code: 200,
+          code: response.statusCode,
         );
       } else {
         String reasonPhrase = response.reasonPhrase!;
@@ -128,11 +128,11 @@ class AttendanceScheduleDaysAndDatesNetwork {
 
       if (response.statusCode == 200) {
         // print({"responseBody": responseBody});
-        dynamic response = json.decode(responseBody);
-        bool success = response['success'];
+        dynamic responseResponse = json.decode(responseBody);
+        bool success = responseResponse['success'];
         AttendanceScheduleDateModel? date;
         if (success) {
-          Map<String, dynamic> data = response['data'] as Map<String, dynamic>;
+          Map<String, dynamic> data = responseResponse['data'] as Map<String, dynamic>;
           date = AttendanceScheduleDateModel.fromJson(data);
           // print({"date": date});
           // await _schedulesUserModelDatabase.addAttendanceSchedule(date);
@@ -140,7 +140,7 @@ class AttendanceScheduleDaysAndDatesNetwork {
 
         return NetworkSuccess(
           response: date,
-          code: 200,
+          code: response.statusCode,
         );
       } else {
         String reasonPhrase = response.reasonPhrase!;
@@ -213,19 +213,29 @@ class AttendanceScheduleDaysAndDatesNetwork {
 
       if (response.statusCode == 200) {
         // print({"responseBody": responseBody});
-        dynamic response = json.decode(responseBody);
-        bool success = response['success'];
-        AttendanceScheduleDayModel? day;
+        dynamic responseResponse = json.decode(responseBody);
+        // print({"response": response});
+        bool success = responseResponse['success'];
+        List<AttendanceScheduleDayModel> days = [];
         if (success) {
-          Map<String, dynamic> data = response['data'] as Map<String, dynamic>;
-          day = AttendanceScheduleDayModel.fromJson(data);
-          // print({"day": day});
-          // await _schedulesUserModelDatabase.addAttendanceSchedule(day);
+          List<dynamic> results = responseResponse['data'];
+          // print({"results": results});
+
+          for (var result in results) {
+            // print({"result": result});
+            AttendanceScheduleDayModel day =
+                AttendanceScheduleDayModel.fromJson(result);
+            // print({"day": day});
+            if (!days.contains(day)) {
+              days.add(day);
+              // await _schedulesUserModelDatabase.addAttendanceSchedule(day);
+            }
+          }
         }
 
         return NetworkSuccess(
-          response: day,
-          code: 200,
+          response: days,
+          code: response.statusCode,
         );
       } else {
         String reasonPhrase = response.reasonPhrase!;

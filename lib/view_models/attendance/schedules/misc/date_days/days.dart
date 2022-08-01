@@ -72,4 +72,13 @@ class AttendanceScheduleDayViewModel extends ChangeNotifier {
     setLoading(false);
     return attendanceScheduleDaysSuccess;
   }
+
+  Future scheduleDaysAlt(int scheduleId) async {
+    var response = await AttendanceScheduleDaysAndDatesNetwork.scheduleDays(
+      scheduleId,
+    );
+    // print({"response":response});
+
+    return response;
+  }
 }

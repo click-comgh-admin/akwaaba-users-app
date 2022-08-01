@@ -1,0 +1,33 @@
+{
+    "draw": "-",
+    "recordsTotal": 1,
+    "recordsFiltered": 1,
+    "datatable_plugin": true,
+    "data": [{
+        "id": 13,
+        "type": 1,
+        "memberType": 1,
+        "name": "Paul Bertany",
+        "clientId": 4,
+        "branchId": 1,
+        "memberCategoryId": 1,
+        "meetingSpan": 1,
+        "startTime": "14:00:00",
+        "closeTime": "23:51:00",
+        "latenessTime": "23:00:00",
+        "isRecuring": false,
+        "hasBreakTime": true,
+        "hasDuty": false,
+        "hasOvertime": false,
+        "virtualMeetingLink": "",
+        "virtualMeetingType": 1,
+        "meetingLocation": 1,
+        "expectedMonthlyAttendance": 6,
+        "activeMonthlyAttendance": 9,
+        "agenda": "jsd ksd jds\r\ndsd jdskdjd jdkds\r\nds kdsj sdj dsjds kjd djs ds sdkad klda lkad ad\r\ndadajda dk j kj",
+        "agendaFile": "",
+        "updatedBy": 3,
+        "updateDate": "2022-06-16T10:32:47.017605Z",
+        "date": "2022-04-25T19:39:56.374262Z"
+    }]
+}

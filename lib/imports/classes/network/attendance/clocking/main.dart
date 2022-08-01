@@ -37,11 +37,11 @@ class AttendanceClockingAttendanceNetwork {
 
       if (response.statusCode == 200) {
         // print({"responseBody": responseBody});
-        dynamic response = json.decode(responseBody);
-        bool success = response['success'];
+        dynamic responseResponse = json.decode(responseBody);
+        bool success = responseResponse['success'];
         AttendanceClockingAttendanceDetailsModel? clockingInfo;
         if (success) {
-          Map<String, dynamic> data = response['data'] as Map<String, dynamic>;
+          Map<String, dynamic> data = responseResponse['data'] as Map<String, dynamic>;
           clockingInfo =
               AttendanceClockingAttendanceDetailsModel.fromJson(data);
           // print({"clockingInfo": clockingInfo});
@@ -50,7 +50,7 @@ class AttendanceClockingAttendanceNetwork {
 
         return NetworkSuccess(
           response: clockingInfo,
-          code: 200,
+          code: response.statusCode,
         );
       } else {
         String reasonPhrase = response.reasonPhrase!;
@@ -141,7 +141,7 @@ class AttendanceClockingAttendanceNetwork {
 
         return NetworkSuccess(
           response: clockingInfo,
-          code: 200,
+          code: response.statusCode,
         );
       } else {
         String reasonPhrase = response.reasonPhrase!;
@@ -226,7 +226,7 @@ class AttendanceClockingAttendanceNetwork {
 
         return NetworkSuccess(
           response: clockingInfo,
-          code: 200,
+          code: response.statusCode,
         );
       } else {
         String reasonPhrase = response.reasonPhrase!;

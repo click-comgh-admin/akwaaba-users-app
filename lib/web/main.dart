@@ -1,7 +1,11 @@
+import 'package:akwaaba_user_app/firebase_options.dart';
 import 'package:akwaaba_user_app/imports/functions/hive/open_dbs/main.dart';
 import 'package:akwaaba_user_app/imports/functions/view_model_providers/main.dart';
 import 'package:akwaaba_user_app/models/attendance/clocking/attendance/details/main.dart';
 import 'package:akwaaba_user_app/models/attendance/clocking/attendance/main.dart';
+import 'package:akwaaba_user_app/models/attendance/device/main.dart';
+import 'package:akwaaba_user_app/models/attendance/device/request/full/main.dart';
+import 'package:akwaaba_user_app/models/attendance/device/request/main.dart';
 import 'package:akwaaba_user_app/models/attendance/schedule/break/main.dart';
 import 'package:akwaaba_user_app/models/attendance/schedule/days_dates/dates.dart';
 import 'package:akwaaba_user_app/models/attendance/schedule/days_dates/days.dart';
@@ -17,10 +21,12 @@ import 'package:akwaaba_user_app/models/sidebar/items/main.dart';
 import 'package:akwaaba_user_app/models/types/main.dart';
 import 'package:akwaaba_user_app/models/users/connections/main.dart';
 import 'package:akwaaba_user_app/models/users/connections/types/main.dart';
+import 'package:akwaaba_user_app/models/users/login/extra_info/main.dart';
 import 'package:akwaaba_user_app/models/users/login/main.dart';
 import 'package:akwaaba_user_app/models/users/profile/main.dart';
 import 'package:akwaaba_user_app/models/users/profile/organization/main.dart';
 import 'package:akwaaba_user_app/web/app.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -33,6 +39,10 @@ import 'package:url_strategy/url_strategy.dart';
 Future<void> main() async {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
+
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
 
   await dotenv.load(fileName: ".env");
   setPathUrlStrategy();
@@ -61,7 +71,11 @@ Future<void> main() async {
       ..registerAdapter(AttendanceScheduleLocationModelAdapter()) //18
       ..registerAdapter(AttendanceScheduleBreakModelAdapter()) //19
       ..registerAdapter(AttendanceClockingAttendanceModelAdapter()) //20
-      ..registerAdapter(AttendanceClockingAttendanceDetailsModelAdapter()); //21
+      ..registerAdapter(AttendanceClockingAttendanceDetailsModelAdapter()) //21
+      ..registerAdapter(ExtraLoginInfoModelAdapter()) //22
+      ..registerAdapter(ClockingDeviceModelAdapter()) //23
+      ..registerAdapter(ClockingDeviceRequestModelAdapter()) //24
+      ..registerAdapter(ClockingDeviceRequestFullModelAdapter()); //25
   }
 
   openHiveDbsFunction();

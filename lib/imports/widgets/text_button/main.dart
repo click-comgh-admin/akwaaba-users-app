@@ -1,4 +1,5 @@
-import 'package:akwaaba_user_app/imports/utilities/constants/sizebox/main.dart';
+import 'package:akwaaba_user_app/imports/utilities/constants/sizing/responsive/font_size/main.dart';
+import 'package:akwaaba_user_app/imports/utilities/constants/sizing/sizebox/main.dart';
 import 'package:flutter/material.dart';
 
 class TextButtonIconWidget extends StatelessWidget {
@@ -32,7 +33,18 @@ class TextButtonIconWidget extends StatelessWidget {
         ),
       ),
       child: Row(
-        children: [Text(label), width10SizeboxConstantsUtilities, Icon(icon)],
+        children: [
+          Text(
+            label,
+            style: Theme.of(context).textTheme.bodyText2!.copyWith(
+                  fontSize: body2FontSizeResponsiveSizingContantsUtilities(
+                    context,
+                  ),
+                ),
+          ),
+          width10SizeboxConstantsUtilities,
+          Icon(icon)
+        ],
       ),
     );
   }

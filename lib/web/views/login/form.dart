@@ -1,5 +1,5 @@
 import 'package:akwaaba_user_app/imports/utilities/constants/form/main.dart';
-import 'package:akwaaba_user_app/imports/widgets/login/form/main.dart';
+import 'package:akwaaba_user_app/imports/widgets/pages/login/form/main.dart';
 import 'package:flutter/material.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 
@@ -25,7 +25,7 @@ class _LoginViewsWebState extends State<LoginViewsWeb> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: const [
                 Text(
-                  "Welcome Back",
+                  "Akwaaba",
                   textScaleFactor: 2.5,
                   style: TextStyle(
                     fontWeight: FontWeight.bold,

@@ -15,8 +15,8 @@ class AttendanceScheduleTodayViewModel extends ChangeNotifier {
   List<AttendanceScheduleModel> get attendanceSchedule => _attendanceSchedule;
   NetworkFailure? get networkFailure => _networkFailure;
 
-  AttendanceScheduleTodayViewModel() {
-    todaySchedules();
+  AttendanceScheduleTodayViewModel({bool directCall = false}) {
+    if (directCall) todaySchedules();
   }
 
   setLoading(bool loading) async {

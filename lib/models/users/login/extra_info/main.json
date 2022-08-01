@@ -1,0 +1,7 @@
+{
+    "DeviceInfoMsg": [
+        "This account is already assigned to a different device",
+        "You cannot login with a different device until a period one month since last device assignment has elapsed",
+        "Request new device assignment using the request but, or contact your system administrator."
+    ]
+}

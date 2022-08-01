@@ -1,7 +1,9 @@
+import 'package:akwaaba_user_app/firebase_options.dart';
 import 'package:akwaaba_user_app/imports/config/routes.gr.dart';
-import 'package:akwaaba_user_app/imports/utilities/constants/responsive/devices/main.dart';
+import 'package:akwaaba_user_app/imports/utilities/constants/sizing/responsive/devices/main.dart';
 import 'package:akwaaba_user_app/imports/utilities/theme/constants.dart';
 import 'package:akwaaba_user_app/imports/utilities/theme/manager.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 import 'package:flutter/material.dart';
@@ -30,6 +32,7 @@ class _WebAppState extends State<WebApp> {
 
     super.initState();
     initialization();
+    FirebaseMessaging.instance.getToken(vapidKey: DefaultFirebaseOptions.vapidKey).then(print);
   }
 
   void initialization() async {

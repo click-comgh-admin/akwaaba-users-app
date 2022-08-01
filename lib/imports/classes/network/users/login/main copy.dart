@@ -15,7 +15,7 @@
 //       if (200 == response.statusCode) {
 //         return NetworkSuccess(
 //           response: profileModelFromJson(response.body),
-//           code: 200,
+//           code: response.statusCode,
 //         );
 //       } else {
 //         return NetworkFailure(

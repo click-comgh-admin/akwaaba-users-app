@@ -3,6 +3,7 @@
 import 'package:akwaaba_user_app/imports/classes/forms/validation/manager.dart';
 import 'package:akwaaba_user_app/imports/classes/forms/validation/non_field.dart';
 import 'package:akwaaba_user_app/imports/classes/network/base/api/status.dart';
+import 'package:akwaaba_user_app/imports/utilities/constants/sizing/responsive/font_size/main.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -20,6 +21,25 @@ class NetworkErrorWidget extends StatefulWidget {
 
 class _NetworkErrorWidgetState extends State<NetworkErrorWidget> {
   List<NonFieldValidationForm> nonFieldErrors = [];
+  ScrollController scrollController = ScrollController();
+  @override
+  void initState() {
+    super.initState();
+    scrollController.addListener(scrollControllerListener);
+  }
+
+  @override
+  void dispose() {
+    scrollController.addListener(scrollControllerListener);
+    super.dispose();
+  }
+
+  scrollControllerListener() {
+    if (mounted) {
+      setState(() {});
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     FormValidationManager formValidationManager =
@@ -83,23 +103,61 @@ class _NetworkErrorWidgetState extends State<NetworkErrorWidget> {
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Center(
-          child: Column(
-            children: [
-              Text("Error Code: ${networkFailure.code}"),
-              if (widget.showData)
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: nonFieldErrors
-                      .map((e) => Padding(
-                            padding: const EdgeInsets.only(bottom: 8.0),
-                            child: Text(e.messages),
-                          ))
-                      .toList(),
+          child: SingleChildScrollView(
+            controller: scrollController,
+            child: Column(
+              children: [
+                Text(
+                  "Error Code: ${networkFailure.code}",
+                  style: Theme.of(context).textTheme.bodyText2!.copyWith(
+                        fontSize:
+                            body2FontSizeResponsiveSizingContantsUtilities(
+                          context,
+                        ),
+                      ),
                 ),
-              Text("Message: ${message.toString()}"),
-              Text("Error Exception: ${exception.toString()}"),
-            ],
+                if (widget.showData)
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: nonFieldErrors
+                        .map((e) => Padding(
+                              padding: const EdgeInsets.only(bottom: 8.0),
+                              child: Text(
+                                e.messages,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyText2!
+                                    .copyWith(
+                                      fontSize:
+                                          body2FontSizeResponsiveSizingContantsUtilities(
+                                        context,
+                                      ),
+                                    ),
+                              ),
+                            ))
+                        .toList(),
+                  ),
+                Text(
+                  "Message: ${message.toString()}",
+                  style: Theme.of(context).textTheme.bodyText2!.copyWith(
+                        fontSize:
+                            body2FontSizeResponsiveSizingContantsUtilities(
+                          context,
+                        ),
+                      ),
+                ),
+                Text(
+                  "Error Exception: ${exception.toString()}",
+                  style: Theme.of(context).textTheme.bodyText2!.copyWith(
+                        fontSize:
+                            body2FontSizeResponsiveSizingContantsUtilities(
+                          context,
+                        ),
+                      ),
+                ),
+              ],
+            ),
           ),
         ),
       ),

@@ -1,5 +1,8 @@
+import 'package:akwaaba_user_app/imports/config/routes.gr.dart';
 import 'package:akwaaba_user_app/imports/widgets/pages/attendance/home/upcoming/ui.dart';
+import 'package:akwaaba_user_app/imports/widgets/text_button/main.dart';
 import 'package:akwaaba_user_app/view_models/attendance/schedules/upcoming/main.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -26,6 +29,11 @@ class _UpcomingAttendancePagesHomeWidgetState
   initState() {
     super.initState();
     scrollController.addListener(scrollControllerListener);
+    AttendanceScheduleUpcomingViewModel upcomingSchedules =
+        Provider.of(context, listen: false);
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      upcomingSchedules.upcomingSchedules();
+    });
   }
 
   scrollControllerListener() {
@@ -45,9 +53,22 @@ class _UpcomingAttendancePagesHomeWidgetState
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            title,
-            style: Theme.of(context).textTheme.headline6,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                title,
+                style: Theme.of(context).textTheme.headline6,
+              ),
+              TextButtonIconWidget(
+                onPressed: () {
+                  AutoRouter.of(context).push(const AttendanceMeetingsRouteWeb());
+                },
+                // color: Colors.indigo,
+                icon: Icons.arrow_right_alt_sharp,
+                label: "View All Meetings",
+              ),
+            ],
           ),
           Expanded(
             child: Center(

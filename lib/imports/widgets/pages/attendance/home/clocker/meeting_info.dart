@@ -1,3 +1,4 @@
+import 'package:akwaaba_user_app/imports/utilities/constants/sizing/responsive/font_size/main.dart';
 import 'package:flutter/material.dart';
 
 List<DataRow> clockerMeetingInfo({
@@ -16,178 +17,133 @@ List<DataRow> clockerMeetingInfo({
   required String expectedMonthlyAttendance,
   required String activeMonthlyAttendance,
   required String agenda,
+  required BuildContext context,
 }) {
+  TextStyle textStyle = Theme.of(context).textTheme.bodyText2!.copyWith(
+      fontSize: body2FontSizeResponsiveSizingContantsUtilities(context));
   return [
     DataRow(cells: [
-      const DataCell(
-        Text(
-          'Type',
-        ),
+      DataCell(
+        Text('Type', style: textStyle),
       ),
       DataCell(
-        Text(meetingType),
+        Text(meetingType, style: textStyle),
       ),
     ]),
     DataRow(cells: [
-      const DataCell(
-        Text("Meeting Span"),
+      DataCell(
+        Text("Meeting Span", style: textStyle),
       ),
       DataCell(
-        Text(meetingSpanStr),
+        Text(meetingSpanStr, style: textStyle),
       ),
     ]),
     DataRow(cells: [
-      const DataCell(
-        Text(
-          'Next Meeting Date',
-        ),
+      DataCell(
+        Text('Next Meeting Date', style: textStyle),
       ),
       DataCell(
-        Text(meetingDate),
+        Text(meetingDate, style: textStyle),
       ),
     ]),
     DataRow(cells: [
-      const DataCell(
-        Text(
-          'Start Time',
-        ),
+      DataCell(
+        Text('Start Time', style: textStyle),
       ),
       DataCell(
-        Text(startTime),
+        Text(startTime, style: textStyle),
       ),
     ]),
     DataRow(cells: [
-      const DataCell(
-        Text(
-          'Close Time',
-        ),
+      DataCell(
+        Text('Close Time', style: textStyle),
       ),
       DataCell(
-        Text(closeTime),
+        Text(closeTime, style: textStyle),
       ),
     ]),
     DataRow(cells: [
-      const DataCell(
-        Text(
-          'Allows Break?',
-        ),
+      DataCell(
+        Text('Allows Break?', style: textStyle),
       ),
       DataCell(
-        Text(
-          hasBreakTime ? "Yes" : "No",
-        ),
+        Text(hasBreakTime ? "Yes" : "No", style: textStyle),
       ),
     ]),
     if (hasBreakTime)
       DataRow(cells: [
-        const DataCell(
-          Text(
-            'Start Break Time',
-          ),
+        DataCell(
+          Text('Start Break Time', style: textStyle),
         ),
         DataCell(
-          Text(
-            meetingBreaks.start,
-          ),
+          Text(meetingBreaks.start, style: textStyle),
         ),
       ]),
     if (hasBreakTime)
       DataRow(cells: [
-        const DataCell(
-          Text(
-            'End Break Time',
-          ),
+        DataCell(
+          Text('End Break Time', style: textStyle),
         ),
         DataCell(
-          Text(
-            meetingBreaks.end,
-          ),
+          Text(meetingBreaks.end, style: textStyle),
         ),
       ]),
     DataRow(cells: [
-      const DataCell(
-        Text(
-          'Lateness Time',
-        ),
+      DataCell(
+        Text('Lateness Time', style: textStyle),
       ),
       DataCell(
-        Text(
-          latenessTime,
-        ),
+        Text(latenessTime, style: textStyle),
       ),
     ]),
     DataRow(cells: [
-      const DataCell(
-        Text(
-          'Meeting Place',
-        ),
+      DataCell(
+        Text('Meeting Place', style: textStyle),
       ),
       DataCell(
-        Text(
-          meetingLocationStr,
-        ),
+        Text(meetingLocationStr, style: textStyle),
       ),
     ]),
     if (hasVirtualMeeting)
       DataRow(cells: [
-        const DataCell(
-          Text(
-            'Virtual Meeting Type',
-          ),
+        DataCell(
+          Text('Virtual Meeting Type', style: textStyle),
         ),
         DataCell(
-          Text(
-            virtualMeetingTypeStr,
-          ),
+          Text(virtualMeetingTypeStr, style: textStyle),
         ),
       ]),
     if (hasVirtualMeeting)
       DataRow(cells: [
-        const DataCell(
-          Text(
-            'Virtual Meeting Link',
-          ),
+        DataCell(
+          Text('Virtual Meeting Link', style: textStyle),
         ),
         DataCell(
-          Text(
-            virtualMeetingLink,
-          ),
+          Text(virtualMeetingLink, style: textStyle),
         ),
       ]),
     DataRow(cells: [
-      const DataCell(
-        Text(
-          'Expected Monthly Attendance',
-        ),
+      DataCell(
+        Text('Expected Monthly Attendance', style: textStyle),
       ),
       DataCell(
-        Text(
-          expectedMonthlyAttendance.toString(),
-        ),
+        Text(expectedMonthlyAttendance.toString(), style: textStyle),
       ),
     ]),
     DataRow(cells: [
-      const DataCell(
-        Text(
-          'Active Monthly Attendance',
-        ),
+      DataCell(
+        Text('Active Monthly Attendance', style: textStyle),
       ),
       DataCell(
-        Text(
-          activeMonthlyAttendance.toString(),
-        ),
+        Text(activeMonthlyAttendance.toString(), style: textStyle),
       ),
     ]),
     DataRow(cells: [
-      const DataCell(
-        Text(
-          'Agenda',
-        ),
+      DataCell(
+        Text('Agenda', style: textStyle),
       ),
       DataCell(
-        Text(
-          agenda,
-        ),
+        Text(agenda, style: textStyle),
       ),
     ]),
   ];
@@ -197,8 +153,13 @@ class WPAHmeetingBreaks {
   final String start;
   final String end;
 
-  const WPAHmeetingBreaks({
+  WPAHmeetingBreaks({
     required this.start,
     required this.end,
   });
+
+  @override
+  String toString() {
+    return '{"start": "$start", "end": "$end"}';
+  }
 }

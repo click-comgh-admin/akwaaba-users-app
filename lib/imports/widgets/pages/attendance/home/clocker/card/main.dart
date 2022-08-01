@@ -34,7 +34,7 @@ class _UiCardClockerAttendancePagesHomeWidgetState
   String meetingDate = "-";
   String virtualMeetingTypeStr = "-";
   String meetingLocationStr = "-";
-  WPAHmeetingBreaks meetingBreaks = const WPAHmeetingBreaks(
+  WPAHmeetingBreaks meetingBreaks = WPAHmeetingBreaks(
     start: "-",
     end: "-",
   );
@@ -89,7 +89,7 @@ class _UiCardClockerAttendancePagesHomeWidgetState
         context.watch<AttendanceClockingAttendanceViewModel>();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       attendanceClockingAttendanceViewModel.setScheduleId(widget.meeting.id!);
-      attendanceClockingAttendanceViewModel.memberAttendance();
+      // attendanceClockingAttendanceViewModel.memberAttendance();
     });
     String meetingType = widget.meeting.type == 1 ? 'Meeting' : 'Event';
     int? meetingSpan = widget.meeting.meetingSpan;
@@ -197,15 +197,17 @@ class _UiCardClockerAttendancePagesHomeWidgetState
         await scheduleBreak.scheduleBreakAlt(widget.meeting.id!);
 
     if (scheduleBreakAlt is NetworkSuccess) {
-      AttendanceScheduleBreakModel attendanceScheduleBreak =
-          scheduleBreakAlt.response as AttendanceScheduleBreakModel;
-      // print({"attendanceScheduleDates": attendanceScheduleDates});
-      String startBreak = formatTimeDatetimeFunction(DateTime.parse(
-          "${meetingDate}T${attendanceScheduleBreak.startBreak!}"));
-      String endBreak = formatTimeDatetimeFunction(DateTime.parse(
-          "${meetingDate}T${attendanceScheduleBreak.endBreak!}"));
+      if (scheduleBreakAlt.response != null) {
+        AttendanceScheduleBreakModel attendanceScheduleBreak =
+            scheduleBreakAlt.response as AttendanceScheduleBreakModel;
+        // print({"attendanceScheduleDates": attendanceScheduleDates});
+        String startBreak = formatTimeDatetimeFunction(DateTime.parse(
+            "${meetingDate}T${attendanceScheduleBreak.startBreak!}"));
+        String endBreak = formatTimeDatetimeFunction(DateTime.parse(
+            "${meetingDate}T${attendanceScheduleBreak.endBreak!}"));
 
-      meetingBreaks = WPAHmeetingBreaks(start: startBreak, end: endBreak);
+        meetingBreaks = WPAHmeetingBreaks(start: startBreak, end: endBreak);
+      }
     }
   }
 

@@ -1,7 +1,7 @@
 // import 'package:akwaaba_user_app/imports/functions/geolocator/difference/main.dart';
 import 'package:geolocator/geolocator.dart';
 
-Future<bool> geolocatorCheckInRadius({
+Future<CheckInRadius> geolocatorCheckInRadius({
   required double startLatitude,
   required double startLongitude,
   required double endLatitude,
@@ -35,5 +35,15 @@ Future<bool> geolocatorCheckInRadius({
   // });
 
   bool inRadius = distanceBetweenInKiloMeters > radius ? false : true;
-  return inRadius;
+  return CheckInRadius(
+    inRadius: inRadius,
+    short: distanceBetweenInKiloMeters.round().toStringAsFixed(1),
+  );
+}
+
+class CheckInRadius {
+  bool inRadius;
+  String short;
+
+  CheckInRadius({required this.inRadius, required this.short});
 }

@@ -36,11 +36,11 @@ class AttendanceScheduleLocationNetwork {
 
       if (response.statusCode == 200) {
         // print({"responseBody": responseBody});
-        dynamic response = json.decode(responseBody);
-        bool success = response['success'];
+        dynamic responseResponse = json.decode(responseBody);
+        bool success = responseResponse['success'];
         AttendanceScheduleLocationModel? meetingLocation;
         if (success) {
-          Map<String, dynamic> data = response['data'] as Map<String, dynamic>;
+          Map<String, dynamic> data = responseResponse['data'] as Map<String, dynamic>;
           meetingLocation = AttendanceScheduleLocationModel.fromJson(data);
           // print({"meetingLocation": meetingLocation});
           // await _schedulesUserModelDatabase.addAttendanceSchedule(meetingLocation);
@@ -48,7 +48,7 @@ class AttendanceScheduleLocationNetwork {
 
         return NetworkSuccess(
           response: meetingLocation,
-          code: 200,
+          code: response.statusCode,
         );
       } else {
         String reasonPhrase = response.reasonPhrase!;
@@ -121,11 +121,11 @@ class AttendanceScheduleLocationNetwork {
 
       if (response.statusCode == 200) {
         // print({"responseBody": responseBody});
-        dynamic response = json.decode(responseBody);
-        bool success = response['success'];
+        dynamic responseResponse = json.decode(responseBody);
+        bool success = responseResponse['success'];
         AttendanceScheduleLocationModel? meetingLocation;
         if (success) {
-          Map<String, dynamic> data = response['data'] as Map<String, dynamic>;
+          Map<String, dynamic> data = responseResponse['data'] as Map<String, dynamic>;
           meetingLocation = AttendanceScheduleLocationModel.fromJson(data);
           // print({"meetingLocation": meetingLocation});
           // await _schedulesUserModelDatabase.addAttendanceSchedule(meetingLocation);
@@ -133,7 +133,7 @@ class AttendanceScheduleLocationNetwork {
 
         return NetworkSuccess(
           response: meetingLocation,
-          code: 200,
+          code: response.statusCode,
         );
       } else {
         String reasonPhrase = response.reasonPhrase!;
@@ -221,7 +221,7 @@ class AttendanceScheduleLocationNetwork {
 
         return NetworkSuccess(
           response: meetingLocation,
-          code: 200,
+          code: response.statusCode,
         );
       } else {
         String reasonPhrase = response.reasonPhrase!;

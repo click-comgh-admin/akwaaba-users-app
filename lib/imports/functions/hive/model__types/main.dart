@@ -1,5 +1,8 @@
 import 'package:akwaaba_user_app/models/attendance/clocking/attendance/details/main.dart';
 import 'package:akwaaba_user_app/models/attendance/clocking/attendance/main.dart';
+import 'package:akwaaba_user_app/models/attendance/device/main.dart';
+import 'package:akwaaba_user_app/models/attendance/device/request/full/main.dart';
+import 'package:akwaaba_user_app/models/attendance/device/request/main.dart';
 import 'package:akwaaba_user_app/models/attendance/schedule/break/main.dart';
 import 'package:akwaaba_user_app/models/attendance/schedule/days_dates/dates.dart';
 import 'package:akwaaba_user_app/models/attendance/schedule/days_dates/days.dart';
@@ -15,11 +18,12 @@ import 'package:akwaaba_user_app/models/sidebar/items/main.dart';
 import 'package:akwaaba_user_app/models/types/main.dart';
 import 'package:akwaaba_user_app/models/users/connections/main.dart';
 import 'package:akwaaba_user_app/models/users/connections/types/main.dart';
+import 'package:akwaaba_user_app/models/users/login/extra_info/main.dart';
 import 'package:akwaaba_user_app/models/users/login/main.dart';
 import 'package:akwaaba_user_app/models/users/profile/main.dart';
 import 'package:akwaaba_user_app/models/users/profile/organization/main.dart';
 
-hiveModelTypes() async {
+Map<int, Type> hiveModelTypes() {
   return {
     1: SettingsTheme,
     2: UserLoginModel,
@@ -42,5 +46,9 @@ hiveModelTypes() async {
     19: AttendanceScheduleBreakModel,
     20: AttendanceClockingAttendanceModel,
     21: AttendanceClockingAttendanceDetailsModel,
+    22: ExtraLoginInfoModel,
+    23: ClockingDeviceModel,
+    24: ClockingDeviceRequestModel,
+    25: ClockingDeviceRequestFullModel
   };
 }

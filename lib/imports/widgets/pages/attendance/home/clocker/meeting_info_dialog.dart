@@ -90,6 +90,7 @@ class WPAHmeetingBreaksDialogIcon extends StatelessWidget {
                               ),
                             ],
                             rows: clockerMeetingInfo(
+                              context: context,
                               meetingType: meetingType,
                               meetingSpanStr: meetingSpanStr,
                               meetingDate: meetingDate,

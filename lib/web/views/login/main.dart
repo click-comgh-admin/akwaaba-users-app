@@ -44,11 +44,15 @@ class _LoginPageWebState extends State<LoginPageWeb> {
     final screenHeight = screenSize.height;
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Akwaaba User App"),
+        title: Text(
+          "Akwaaba User App",
+          style: TextStyle(color: Theme.of(context).textTheme.bodyText2!.color),
+        ),
         backgroundColor: Theme.of(context).primaryColor,
         actions: const [
           ThemeSettingsWidget(),
-        ],elevation: 0,
+        ],
+        elevation: 0,
       ),
       body: SizedBox(
         width: screenWidth,

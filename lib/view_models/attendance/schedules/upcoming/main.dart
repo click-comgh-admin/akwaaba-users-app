@@ -15,8 +15,8 @@ class AttendanceScheduleUpcomingViewModel extends ChangeNotifier {
   List<AttendanceScheduleModel> get attendanceSchedule => _attendanceSchedule;
   NetworkFailure? get networkFailure => _networkFailure;
 
-  AttendanceScheduleUpcomingViewModel() {
-    upcomingSchedules();
+  AttendanceScheduleUpcomingViewModel({bool directCall = false}) {
+    if (directCall) upcomingSchedules();
   }
 
   setLoading(bool loading) async {

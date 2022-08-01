@@ -2,6 +2,7 @@ import 'package:advanced_datatable/advanced_datatable_source.dart';
 import 'package:advanced_datatable/datatable.dart';
 import 'package:akwaaba_user_app/imports/config/routes.gr.dart';
 import 'package:akwaaba_user_app/imports/functions/offline_profile_pictures/main.dart';
+import 'package:akwaaba_user_app/imports/utilities/constants/sizing/responsive/font_size/main.dart';
 import 'package:akwaaba_user_app/imports/widgets/sacffold/body/right_content.dart';
 import 'package:akwaaba_user_app/imports/widgets/sacffold/body/sidebar.dart';
 import 'package:akwaaba_user_app/imports/widgets/sacffold/body/sidebar/drawer.dart';
@@ -67,7 +68,14 @@ class _ConnectionsPageWebState extends State<ConnectionsPageWeb> {
         children: [
           const SideBarBodyScaffoldWidget(),
           RightContentBodyScaffoldWidget(
-            title: const Text("Connections Page"),
+            title: Text(
+              "Connections Page",
+              style: Theme.of(context).textTheme.bodyText2!.copyWith(
+                    fontSize: body2FontSizeResponsiveSizingContantsUtilities(
+                      context,
+                    ),
+                  ),
+            ),
             // topMainChild: Container(),
             child: Column(
               children: [

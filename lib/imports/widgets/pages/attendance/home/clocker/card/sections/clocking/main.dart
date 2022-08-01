@@ -1,12 +1,14 @@
 import 'package:akwaaba_user_app/imports/classes/network/base/api/status.dart';
 import 'package:akwaaba_user_app/imports/functions/datetime/main.dart';
-import 'package:akwaaba_user_app/imports/utilities/constants/padding_margin/home_clocker_card_list_tile/main.dart';
+import 'package:akwaaba_user_app/imports/functions/device_info/main.dart';
+import 'package:akwaaba_user_app/imports/utilities/constants/sizing/padding_margin/home_clocker_card_list_tile/main.dart';
+import 'package:akwaaba_user_app/imports/utilities/constants/sizing/responsive/font_size/main.dart';
 import 'package:akwaaba_user_app/imports/widgets/pages/attendance/home/clocker/card/sections/clockerfx.dart';
-import 'package:akwaaba_user_app/imports/widgets/text_button/main.dart';
 import 'package:akwaaba_user_app/models/attendance/clocking/attendance/details/main.dart';
 import 'package:akwaaba_user_app/models/attendance/clocking/attendance/main.dart';
 import 'package:akwaaba_user_app/models/attendance/schedule/main.dart';
 import 'package:akwaaba_user_app/view_models/attendance/clocking/clockers.dart';
+import 'package:akwaaba_user_app/view_models/attendance/devices/main.dart';
 import 'package:akwaaba_user_app/view_models/attendance/schedules/misc/location/main.dart';
 import 'package:art_sweetalert/art_sweetalert.dart';
 import 'package:flutter/material.dart';
@@ -35,6 +37,7 @@ class _ClockingUiCardClockerAttendancePagesHomeWidgetState
   String? clockInTime;
   String? clockOutTime;
   AttendanceClockingAttendanceModel? clockingInfoModel;
+  Map<String, dynamic>? deviceInfo;
 
   @override
   void dispose() {
@@ -46,6 +49,7 @@ class _ClockingUiCardClockerAttendancePagesHomeWidgetState
   initState() {
     super.initState();
     scrollController.addListener(scrollControllerListener);
+    deviceInfoFunction().then((value) => deviceInfo = value);
   }
 
   scrollControllerListener() {
@@ -87,6 +91,8 @@ class _ClockingUiCardClockerAttendancePagesHomeWidgetState
     AttendanceClockerClockingAttendanceViewModel
         attendanceClockingAttendanceViewModel =
         context.watch<AttendanceClockerClockingAttendanceViewModel>();
+    ClockingDeviceViewModel clockingDeviceViewModel =
+        context.watch<ClockingDeviceViewModel>();
     setClockingInfoModel();
 
     if (clockingInfoModel != null) {
@@ -114,6 +120,7 @@ class _ClockingUiCardClockerAttendancePagesHomeWidgetState
           clockInWidget(
             attendanceScheduleLocationViewModel,
             attendanceClockingAttendanceViewModel,
+            clockingDeviceViewModel,
           ),
           const Padding(
             padding: homeClockerCardListTile,
@@ -122,6 +129,7 @@ class _ClockingUiCardClockerAttendancePagesHomeWidgetState
           clockOutWidget(
             attendanceScheduleLocationViewModel,
             attendanceClockingAttendanceViewModel,
+            clockingDeviceViewModel,
           ),
         ],
       ),
@@ -131,12 +139,17 @@ class _ClockingUiCardClockerAttendancePagesHomeWidgetState
   ListTile clockInWidget(
     AttendanceScheduleLocationViewModel aslViewModel,
     AttendanceClockerClockingAttendanceViewModel acaViewModel,
+    ClockingDeviceViewModel cdViewModel,
   ) {
     return ListTile(
       contentPadding: homeClockerCardListTile,
       title: Text(
         "Clock In",
-        style: Theme.of(context).textTheme.bodyText2,
+        style: Theme.of(context).textTheme.bodyText2!.copyWith(
+              fontSize: body2FontSizeResponsiveSizingContantsUtilities(
+                context,
+              ),
+            ),
       ),
       subtitle: (clockInTime == null)
           ? Text(
@@ -144,18 +157,24 @@ class _ClockingUiCardClockerAttendancePagesHomeWidgetState
               style: Theme.of(context).textTheme.bodyText2!.copyWith(
                     color: Theme.of(context).primaryColor,
                     fontStyle: FontStyle.italic,
+                    fontSize: body2FontSizeResponsiveSizingContantsUtilities(
+                      context,
+                    ),
                   ),
             )
           : Text(
               "$clockInTime",
               style: Theme.of(context).textTheme.bodyText1!.copyWith(
                     fontStyle: FontStyle.italic,
+                    fontSize: body2FontSizeResponsiveSizingContantsUtilities(
+                      context,
+                    ),
                   ),
             ),
       trailing: IconButton(
         color: Colors.green,
         icon: const Icon(Icons.keyboard_double_arrow_right_sharp),
-        onPressed: () => clockInFx(aslViewModel, acaViewModel),
+        onPressed: () => clockInFx(aslViewModel, acaViewModel, cdViewModel),
       ),
     );
   }
@@ -163,12 +182,17 @@ class _ClockingUiCardClockerAttendancePagesHomeWidgetState
   ListTile clockOutWidget(
     AttendanceScheduleLocationViewModel aslViewModel,
     AttendanceClockerClockingAttendanceViewModel acaViewModel,
+    ClockingDeviceViewModel cdViewModel,
   ) {
     return ListTile(
       contentPadding: homeClockerCardListTile,
       title: Text(
         "Clock Out",
-        style: Theme.of(context).textTheme.bodyText2,
+        style: Theme.of(context).textTheme.bodyText2!.copyWith(
+              fontSize: body2FontSizeResponsiveSizingContantsUtilities(
+                context,
+              ),
+            ),
       ),
       subtitle: (clockOutTime == null)
           ? Text(
@@ -176,18 +200,24 @@ class _ClockingUiCardClockerAttendancePagesHomeWidgetState
               style: Theme.of(context).textTheme.bodyText2!.copyWith(
                     color: Theme.of(context).primaryColor,
                     fontStyle: FontStyle.italic,
+                    fontSize: body2FontSizeResponsiveSizingContantsUtilities(
+                      context,
+                    ),
                   ),
             )
           : Text(
               "$clockOutTime",
               style: Theme.of(context).textTheme.bodyText1!.copyWith(
                     fontStyle: FontStyle.italic,
+                    fontSize: body2FontSizeResponsiveSizingContantsUtilities(
+                      context,
+                    ),
                   ),
             ),
       trailing: IconButton(
         color: Colors.red,
         icon: const Icon(Icons.keyboard_double_arrow_left_sharp),
-        onPressed: () => clockOutFx(aslViewModel, acaViewModel),
+        onPressed: () => clockOutFx(aslViewModel, acaViewModel, cdViewModel),
       ),
     );
   }
@@ -195,6 +225,7 @@ class _ClockingUiCardClockerAttendancePagesHomeWidgetState
   Future<bool> clockInFx(
     AttendanceScheduleLocationViewModel aslViewModel,
     AttendanceClockerClockingAttendanceViewModel acaViewModel,
+    ClockingDeviceViewModel cdViewModel,
   ) async {
     return await clockerWidgetClockButtonFx(context,
         meetingId: widget.meeting.id!,
@@ -202,7 +233,8 @@ class _ClockingUiCardClockerAttendancePagesHomeWidgetState
         alertMessage: "Clock In",
         artConfirmClockingDialogKey: _artConfirmClockingDialogKey,
         attendanceScheduleLocationViewModel: aslViewModel,
-        clocker: (allowedToClock) async {
+        clockingDeviceViewModel: cdViewModel,
+        deviceInfo: deviceInfo!, clocker: (allowedToClock) async {
       if (allowedToClock) {
         _artConfirmClockingDialogKey.currentState!.showLoader();
         var clocked = await acaViewModel.clockInAlt(
@@ -298,6 +330,7 @@ class _ClockingUiCardClockerAttendancePagesHomeWidgetState
   Future<bool> clockOutFx(
     AttendanceScheduleLocationViewModel aslViewModel,
     AttendanceClockerClockingAttendanceViewModel acaViewModel,
+    ClockingDeviceViewModel cdViewModel,
   ) async {
     return await clockerWidgetClockButtonFx(context,
         meetingId: widget.meeting.id!,
@@ -305,7 +338,8 @@ class _ClockingUiCardClockerAttendancePagesHomeWidgetState
         alertMessage: "Clock Out",
         artConfirmClockingDialogKey: _artConfirmClockingDialogKey,
         attendanceScheduleLocationViewModel: aslViewModel,
-        clocker: (allowedToClock) async {
+        clockingDeviceViewModel: cdViewModel,
+        deviceInfo: deviceInfo!, clocker: (allowedToClock) async {
       if (allowedToClock) {
         _artConfirmClockingDialogKey.currentState!.showLoader();
         var clocked = await acaViewModel.clockOutAlt(

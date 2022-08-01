@@ -4,6 +4,7 @@
 
 import 'dart:convert';
 
+import 'package:akwaaba_user_app/models/users/login/extra_info/main.dart';
 import 'package:hive/hive.dart';
 
 part 'main.g.dart';
@@ -20,6 +21,7 @@ class UserLoginModel {
     this.token,
     this.user,
     this.memberId,
+    this.extraInfo,
     this.loginDate,
   });
 
@@ -33,14 +35,21 @@ class UserLoginModel {
   int? memberId;
   @HiveField(4)
   DateTime? loginDate;
+  @HiveField(5)
+  ExtraLoginInfoModel? extraInfo;
 
   factory UserLoginModel.fromJson(Map<String, dynamic> json) {
     final user = QuickUser.fromJson(json["user"]);
+    var rawExtraInfo = json["extra_info"];
+    final extraInfo = (rawExtraInfo == null)
+        ? null
+        : ExtraLoginInfoModel.fromJson(rawExtraInfo);
     return UserLoginModel(
       expiry: DateTime.parse(json["expiry"]),
       token: json["token"],
       user: user,
       memberId: user.id,
+      extraInfo: extraInfo,
       loginDate: DateTime.now(),
     );
   }
@@ -50,6 +59,7 @@ class UserLoginModel {
         "token": token,
         "user": user?.toJson(),
         "memberId": memberId,
+        "extraInfo": extraInfo ?? extraLoginInfoModelToJson(extraInfo!),
         "loginDate": loginDate?.toIso8601String(),
       };
 

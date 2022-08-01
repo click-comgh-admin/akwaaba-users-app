@@ -1,0 +1,68 @@
+{
+  "project_info": {
+    "project_number": "538850303764",
+    "project_id": "akwaaba-app-ghana",
+    "storage_bucket": "akwaaba-app-ghana.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:538850303764:android:0c7140a7db6aba3315ac01",
+        "android_client_info": {
+          "package_name": "com.app.plusdatabase.akwaaba"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "538850303764-79c8s4c44go3oj5fmetuh54lqjodcteo.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCXLPuNLqjC8fYuz704rlYB7ORNYiAXeLE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "538850303764-79c8s4c44go3oj5fmetuh54lqjodcteo.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:538850303764:android:70bcaed905600d3115ac01",
+        "android_client_info": {
+          "package_name": "com.example.akwaaba_user_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "538850303764-79c8s4c44go3oj5fmetuh54lqjodcteo.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCXLPuNLqjC8fYuz704rlYB7ORNYiAXeLE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "538850303764-79c8s4c44go3oj5fmetuh54lqjodcteo.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

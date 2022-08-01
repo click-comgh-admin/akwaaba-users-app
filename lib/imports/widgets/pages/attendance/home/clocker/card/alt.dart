@@ -1,12 +1,9 @@
 import 'package:akwaaba_user_app/imports/classes/network/base/api/status.dart';
 import 'package:akwaaba_user_app/imports/functions/datetime/main.dart';
-import 'package:akwaaba_user_app/imports/widgets/errors/network/main.dart';
-import 'package:akwaaba_user_app/imports/widgets/loading/main.dart';
-import 'package:akwaaba_user_app/imports/widgets/pages/attendance/home/clocker/card/sections/breaks/main.dart';
-import 'package:akwaaba_user_app/imports/widgets/pages/attendance/home/clocker/card/sections/clocking/main.dart';
+import 'package:akwaaba_user_app/imports/utilities/constants/sizing/responsive/font_size/main.dart';
+import 'package:akwaaba_user_app/imports/widgets/pages/attendance/home/clocker/card/ui.dart';
 import 'package:akwaaba_user_app/imports/widgets/pages/attendance/home/clocker/meeting_info.dart';
 import 'package:akwaaba_user_app/imports/widgets/pages/attendance/home/clocker/meeting_info_dialog.dart';
-import 'package:akwaaba_user_app/models/attendance/clocking/attendance/details/main.dart';
 import 'package:akwaaba_user_app/models/attendance/schedule/break/main.dart';
 import 'package:akwaaba_user_app/models/attendance/schedule/main.dart';
 import 'package:akwaaba_user_app/models/types/main.dart';
@@ -35,7 +32,7 @@ class _UiCardAltClockerAttendancePagesHomeWidgetState
   static bool _calledMeetingDate = false;
   static String _virtualMeetingTypeStr = "-";
   static String _meetingLocationStr = "-";
-  static WPAHmeetingBreaks _meetingBreaks = const WPAHmeetingBreaks(
+  static WPAHmeetingBreaks _meetingBreaks = WPAHmeetingBreaks(
     start: "-",
     end: "-",
   );
@@ -79,6 +76,14 @@ class _UiCardAltClockerAttendancePagesHomeWidgetState
   void initState() {
     super.initState();
     networkCalls(context);
+    AttendanceClockingAttendanceViewModel clockingInfoViewModel =
+        Provider.of(context, listen: false);
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      clockingInfoViewModel.memberAttendance(
+        true,
+        meetingId: widget.meeting.id,
+      );
+    });
   }
 
   networkCalls(BuildContext context) {
@@ -148,81 +153,63 @@ class _UiCardAltClockerAttendancePagesHomeWidgetState
                 children: [
                   Text(
                     "${widget.meeting.name} - [$meetingType]",
-                    style: Theme.of(context).textTheme.bodyText1,
+                    style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                          fontSize:
+                              body2FontSizeResponsiveSizingContantsUtilities(
+                            context,
+                          ),
+                        ),
                   ),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
                         "Date: $date",
-                        style: Theme.of(context).textTheme.bodyText2,
+                        style: Theme.of(context).textTheme.bodyText2!.copyWith(
+                              fontSize:
+                                  body2FontSizeResponsiveSizingContantsUtilities(
+                                context,
+                              ),
+                            ),
                       ),
                       Text(
                         "$meetingType Span: $meetingSpanStr",
-                        style: Theme.of(context).textTheme.bodyText1,
+                        style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                              fontSize:
+                                  body2FontSizeResponsiveSizingContantsUtilities(
+                                context,
+                              ),
+                            ),
                       ),
                     ],
                   ),
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text("Starts: $startTime"),
+                      Text(
+                        "Starts: $startTime",
+                        style: Theme.of(context).textTheme.bodyText2!.copyWith(
+                              fontSize:
+                                  body2FontSizeResponsiveSizingContantsUtilities(
+                                context,
+                              ),
+                            ),
+                      ),
                       const Text("  -  "),
-                      Text("Ends: $closeTime"),
+                      Text(
+                        "Ends: $closeTime",
+                        style: Theme.of(context).textTheme.bodyText2!.copyWith(
+                              fontSize:
+                                  body2FontSizeResponsiveSizingContantsUtilities(
+                                context,
+                              ),
+                            ),
+                      ),
                     ],
                   ),
-                  FutureBuilder(
-                    future: clockingInfoViewModel.memberAttendanceAlt(
-                      meetingId: widget.meeting.id,
-                    ),
-                    builder: (BuildContext context, AsyncSnapshot snapshot) {
-                      if (snapshot.connectionState == ConnectionState.waiting) {
-                        return const LoadingWidget1();
-                      }
-
-                      TextStyle? textStyle =
-                          Theme.of(context).textTheme.bodyText2;
-
-                      if (snapshot.hasError) {
-                        return Text(
-                          "Clocking Info: ${snapshot.error} :: error occured",
-                          style: textStyle!.copyWith(color: Colors.red),
-                        );
-                      }
-                      if (snapshot.hasData) {
-                        var data = snapshot.data!;
-                        if (data is NetworkSuccess) {
-                          AttendanceClockingAttendanceDetailsModel
-                              userClockingInfo = data.response
-                                  as AttendanceClockingAttendanceDetailsModel;
-                          // print({
-                          //   "userClockingInfo-${widget.meeting.name}":
-                          //       userClockingInfo
-                          // });
-                          return Column(
-                            children: [
-                              ClockingUiCardClockerAttendancePagesHomeWidget(
-                                meeting: widget.meeting,
-                                clockingInfo: userClockingInfo,
-                              ),
-                              BreaksUiCardClockerAttendancePagesHomeWidget(
-                                meeting: widget.meeting,
-                                clockingInfo: userClockingInfo,
-                              ),
-                            ],
-                          );
-                        }
-                        if (data is NetworkFailure) {
-                          return NetworkErrorWidget(
-                            networkFailure: data,
-                          );
-                        }
-                      }
-                      return Text(
-                        "Clocking Info: $date",
-                        style: textStyle,
-                      );
-                    },
+                  SubUiCardAltClockerAttendancePagesHomeWidget(
+                    clockingInfoViewModel: clockingInfoViewModel,
+                    meeting: widget.meeting,
                   ),
                 ],
               ),

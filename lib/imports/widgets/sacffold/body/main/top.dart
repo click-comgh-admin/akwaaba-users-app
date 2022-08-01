@@ -1,4 +1,4 @@
-import 'package:akwaaba_user_app/imports/utilities/constants/sizebox/main.dart';
+import 'package:akwaaba_user_app/imports/utilities/constants/sizing/sizebox/main.dart';
 import 'package:flutter/material.dart';
 
 class TopMainBodyScaffoldWidget extends StatefulWidget {

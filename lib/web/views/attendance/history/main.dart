@@ -1,3 +1,4 @@
+import 'package:akwaaba_user_app/imports/utilities/constants/sizing/responsive/font_size/main.dart';
 import 'package:akwaaba_user_app/imports/widgets/sacffold/body/sidebar/drawer.dart';
 import 'package:akwaaba_user_app/imports/widgets/settings/theme/main.dart';
 import 'package:akwaaba_user_app/view_models/scaffold/main.dart';
@@ -29,7 +30,14 @@ class _AttendanceHistoryPageWebState extends State<AttendanceHistoryPageWeb> {
       key: scaffoldViewModelCtx.scaffoldState,
       drawer: const SidebarDrawerBodyScaffoldWidget(),
       appBar: AppBar(
-        title: const Text("widget.title"),
+        title: Text(
+          "widget.title",
+          style: Theme.of(context).textTheme.bodyText2!.copyWith(
+                fontSize: body2FontSizeResponsiveSizingContantsUtilities(
+                  context,
+                ),
+              ),
+        ),
         actions: [
           const ThemeSettingsWidget(),
           IconButton(

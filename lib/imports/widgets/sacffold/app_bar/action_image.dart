@@ -1,5 +1,6 @@
 import 'package:akwaaba_user_app/imports/functions/offline_profile_pictures/main.dart';
-import 'package:akwaaba_user_app/imports/widgets/login/logout/buttom/alt.dart';
+import 'package:akwaaba_user_app/imports/widgets/pages/login/logout/buttom/alt.dart';
+import 'package:akwaaba_user_app/imports/widgets/sacffold/app_bar/device_info/main.dart';
 import 'package:akwaaba_user_app/imports/widgets/sacffold/app_bar/my_account_popup_btn_item.dart';
 import 'package:akwaaba_user_app/imports/widgets/sacffold/app_bar/where_am_i/main.dart';
 import 'package:akwaaba_user_app/imports/widgets/settings/theme/alt.dart';
@@ -41,6 +42,10 @@ class ActionImageAppBarScaffoldWidget extends StatelessWidget {
                   const PopupMenuDivider(),
                   const PopupMenuItem(
                     child: WhereAmIButtonAppBarScaffoldWidget(),
+                  ),
+                  const PopupMenuDivider(),
+                  const PopupMenuItem(
+                    child: DeviceInfoButtonAppBarScaffoldWidget(),
                   ),
                   const PopupMenuDivider(),
                   const PopupMenuItem(

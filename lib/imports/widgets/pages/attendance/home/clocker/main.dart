@@ -16,6 +16,15 @@ class _ClockerAttendancePagesHomeWidgetState
   String title = "Today's Meeting/ Event";
 
   @override
+  void initState() {
+    super.initState();
+    AttendanceScheduleTodayViewModel todaySchedules = Provider.of(context, listen: false);
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      todaySchedules.todaySchedules();
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     AttendanceScheduleTodayViewModel todaySchedules =
         context.watch<AttendanceScheduleTodayViewModel>();

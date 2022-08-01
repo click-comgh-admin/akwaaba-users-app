@@ -36,11 +36,11 @@ class AttendanceScheduleBreakNetwork {
 
       if (response.statusCode == 200) {
         // print({"responseBody": responseBody});
-        dynamic response = json.decode(responseBody);
-        bool success = response['success'];
+        dynamic responseResponse = json.decode(responseBody);
+        bool success = responseResponse['success'];
         AttendanceScheduleBreakModel? meetingBreak;
         if (success) {
-          Map<String, dynamic> data = response['data'] as Map<String, dynamic>;
+          Map<String, dynamic> data = responseResponse['data'] as Map<String, dynamic>;
           meetingBreak = AttendanceScheduleBreakModel.fromJson(data);
           // print({"meetingBreak": meetingBreak});
           // await _schedulesUserModelDatabase.addAttendanceSchedule(meetingBreak);
@@ -48,7 +48,7 @@ class AttendanceScheduleBreakNetwork {
 
         return NetworkSuccess(
           response: meetingBreak,
-          code: 200,
+          code: response.statusCode,
         );
       } else {
         String reasonPhrase = response.reasonPhrase!;
@@ -133,7 +133,7 @@ class AttendanceScheduleBreakNetwork {
 
         return NetworkSuccess(
           response: meetingBreak,
-          code: 200,
+          code: response.statusCode,
         );
       } else {
         String reasonPhrase = response.reasonPhrase!;

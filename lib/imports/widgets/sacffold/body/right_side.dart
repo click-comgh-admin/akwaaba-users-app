@@ -1,7 +1,6 @@
-import 'package:akwaaba_user_app/imports/utilities/constants/padding_margin/main.dart';
-import 'package:akwaaba_user_app/imports/utilities/constants/responsive/devices/main.dart';
+import 'package:akwaaba_user_app/imports/utilities/constants/sizing/padding_margin/main.dart';
 import 'package:akwaaba_user_app/imports/utilities/constants/scaffold/main.dart';
-import 'package:akwaaba_user_app/imports/utilities/constants/sizebox/main.dart';
+import 'package:akwaaba_user_app/imports/utilities/constants/sizing/sizebox/main.dart';
 import 'package:akwaaba_user_app/imports/widgets/sacffold/body/right_side/bottom.dart';
 import 'package:akwaaba_user_app/imports/widgets/sacffold/body/right_side/top.dart';
 import 'package:flutter/material.dart';

@@ -21,6 +21,7 @@ class UserLoginModelAdapter extends TypeAdapter<UserLoginModel> {
       token: fields[1] as String?,
       user: fields[2] as QuickUser?,
       memberId: fields[3] as int?,
+      extraInfo: fields[5] as ExtraLoginInfoModel?,
       loginDate: fields[4] as DateTime?,
     );
   }
@@ -28,7 +29,7 @@ class UserLoginModelAdapter extends TypeAdapter<UserLoginModel> {
   @override
   void write(BinaryWriter writer, UserLoginModel obj) {
     writer
-      ..writeByte(5)
+      ..writeByte(6)
       ..writeByte(0)
       ..write(obj.expiry)
       ..writeByte(1)
@@ -38,7 +39,9 @@ class UserLoginModelAdapter extends TypeAdapter<UserLoginModel> {
       ..writeByte(3)
       ..write(obj.memberId)
       ..writeByte(4)
-      ..write(obj.loginDate);
+      ..write(obj.loginDate)
+      ..writeByte(5)
+      ..write(obj.extraInfo);
   }
 
   @override

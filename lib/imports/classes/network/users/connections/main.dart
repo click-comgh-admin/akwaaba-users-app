@@ -54,7 +54,7 @@ class UserConnectionsNetwork {
 
         return NetworkSuccess(
           response: connections,
-          code: 200,
+          code: response.statusCode,
         );
       } else {
         String reasonPhrase = response.reasonPhrase!;
@@ -128,7 +128,7 @@ class UserConnectionsNetwork {
         // print({"responseBody": responseBody});
         return NetworkSuccess(
           response: connections,
-          code: 200,
+          code: response.statusCode,
         );
       } else {
         String reasonPhrase = response.reasonPhrase!;
@@ -199,7 +199,7 @@ class UserConnectionsNetwork {
         await _connectionsUserModelDatabase.addConnection(connection);
         return NetworkSuccess(
           response: connection,
-          code: 200,
+          code: response.statusCode,
         );
       } else {
         String reasonPhrase = response.reasonPhrase!;

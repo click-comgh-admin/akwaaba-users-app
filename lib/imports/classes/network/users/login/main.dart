@@ -11,7 +11,14 @@ import 'package:http/http.dart' as http;
 final LoginUserModelDatabase _loginUserModelDatabase = LoginUserModelDatabase();
 
 class LoginNetwork {
-  static Future<Object> login({required String emailPhone, required String password}) async {
+  static Future<Object> login({
+    required String emailPhone,
+    required String password,
+    required String checkDeviceInfo,
+    required String systemDevice,
+    required String deviceType,
+    required String deviceId,
+  }) async {
     try {
       var headers = {
         'Content-Type': 'application/json',
@@ -20,24 +27,29 @@ class LoginNetwork {
       var request = http.Request('POST', url);
 
       Map<String, String> requestBody = {
-        "phone_email": emailPhone, 
-        "password": password
+        "phone_email": emailPhone,
+        "password": password,
+        
+        "checkDeviceInfo": checkDeviceInfo,
+        "systemDevice": systemDevice,
+        "deviceType": deviceType,
+        "deviceId": deviceId,
       };
       // print({"requestBody": requestBody});
-      
+
       request.body = json.encode(requestBody);
       request.headers.addAll(headers);
 
       http.StreamedResponse response = await request.send();
       String responseBody = await response.stream.bytesToString();
 
-      if (response.statusCode == 200) {
+      if (response.statusCode == 200 || response.statusCode == 201) {
         UserLoginModel login = userLoginModelFromJson(responseBody);
         // print({"responseBody": responseBody});
         await _loginUserModelDatabase.setLogin(login);
         return NetworkSuccess(
           response: login,
-          code: 200,
+          code: response.statusCode,
         );
       } else {
         String reasonPhrase = response.reasonPhrase!;
@@ -77,12 +89,14 @@ class LoginNetwork {
       );
     } catch (e) {
       final error = Exception(e);
+      // print({"error-error": error});
       return NetworkFailure(
         errorResponse: error,
         code: error.hashCode,
       );
     }
   }
+
   static Future<Object> verifyLogin() async {
     try {
       UserLoginModel? currentLogin = await _loginUserModelDatabase.getLogin();
@@ -93,22 +107,20 @@ class LoginNetwork {
       var url = Uri.parse(apiBaseUrlFunctions(VERIFY_API_TOKEN_ENDPOINTS));
       var request = http.Request('POST', url);
 
-      Map<String, String> requestBody = {
-        "token": currentLogin.token!
-      };
+      Map<String, String> requestBody = {"token": currentLogin.token!};
       // print({"requestBody": requestBody});
-      
+
       request.body = json.encode(requestBody);
       request.headers.addAll(headers);
 
       http.StreamedResponse response = await request.send();
       String responseBody = await response.stream.bytesToString();
 
-      if (response.statusCode == 200) {
+      if (response.statusCode == 200 || response.statusCode == 201) {
         // print({"responseBody": responseBody});
         return NetworkSuccess(
           response: userLoginModelFromJson(responseBody),
-          code: 200,
+          code: response.statusCode,
         );
       } else {
         String reasonPhrase = response.reasonPhrase!;

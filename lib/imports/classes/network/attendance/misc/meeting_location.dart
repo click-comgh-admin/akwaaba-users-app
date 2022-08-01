@@ -36,11 +36,11 @@ class AttendanceSchedulePlaceNetwork {
 
       if (response.statusCode == 200) {
         // print({"responseBody": responseBody});
-        dynamic response = json.decode(responseBody);
-        bool success = response['success'];
+        dynamic responseResponse = json.decode(responseBody);
+        bool success = responseResponse['success'];
         TypesModel? virtualMeetingType;
         if (success) {
-          Map<String, dynamic> data = response['data'] as Map<String, dynamic>;
+          Map<String, dynamic> data = responseResponse['data'] as Map<String, dynamic>;
           virtualMeetingType = TypesModel.fromJson(data);
           // print({"virtualMeetingType": virtualMeetingType});
           // await _schedulesUserModelDatabase.addAttendanceSchedule(virtualMeetingType);
@@ -48,7 +48,7 @@ class AttendanceSchedulePlaceNetwork {
 
         return NetworkSuccess(
           response: virtualMeetingType,
-          code: 200,
+          code: response.statusCode,
         );
       } else {
         String reasonPhrase = response.reasonPhrase!;
@@ -121,11 +121,11 @@ class AttendanceSchedulePlaceNetwork {
 
       if (response.statusCode == 200) {
         // print({"responseBody": responseBody});
-        dynamic response = json.decode(responseBody);
-        bool success = response['success'];
+        dynamic responseResponse = json.decode(responseBody);
+        bool success = responseResponse['success'];
         TypesModel? meetingPlace;
         if (success) {
-          Map<String, dynamic> data = response['data'] as Map<String, dynamic>;
+          Map<String, dynamic> data = responseResponse['data'] as Map<String, dynamic>;
           meetingPlace = TypesModel.fromJson(data);
           // print({"meetingPlace": meetingPlace});
           // await _schedulesUserModelDatabase.addAttendanceSchedule(meetingPlace);
@@ -133,7 +133,7 @@ class AttendanceSchedulePlaceNetwork {
 
         return NetworkSuccess(
           response: meetingPlace,
-          code: 200,
+          code: response.statusCode,
         );
       } else {
         String reasonPhrase = response.reasonPhrase!;

@@ -1,4 +1,5 @@
 import 'package:akwaaba_user_app/imports/config/routes.gr.dart';
+import 'package:akwaaba_user_app/imports/utilities/constants/sizing/responsive/font_size/main.dart';
 import 'package:akwaaba_user_app/imports/widgets/sacffold/body/right_content.dart';
 import 'package:akwaaba_user_app/imports/widgets/sacffold/body/sidebar.dart';
 import 'package:akwaaba_user_app/imports/widgets/sacffold/body/sidebar/drawer.dart';
@@ -35,11 +36,26 @@ class _AttendancePageWebState extends State<AttendancePageWeb> {
         children: [
           const SideBarBodyScaffoldWidget(),
           RightContentBodyScaffoldWidget(
-            title: const Text("Member Attendance"),
+            title: Text(
+              "Member Attendance",
+              style: Theme.of(context).textTheme.bodyText2!.copyWith(
+                    fontSize: body2FontSizeResponsiveSizingContantsUtilities(
+                      context,
+                    ),
+                  ),
+            ),
             topMainChild: Container(),
             child: Column(
-              children: const [
-                Text("Attendance Page"),
+              children: [
+                Text(
+                  "Attendance Page",
+                  style: Theme.of(context).textTheme.bodyText2!.copyWith(
+                        fontSize:
+                            body2FontSizeResponsiveSizingContantsUtilities(
+                          context,
+                        ),
+                      ),
+                ),
               ],
             ),
           ),

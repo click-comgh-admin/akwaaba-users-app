@@ -78,13 +78,23 @@ class UserLoginViewModel extends ChangeNotifier {
     _networkFailure = networkFailure;
   }
 
-  Future<bool> userLogin(
-      {required String emailPhone, required String password}) async {
+  Future<bool> userLogin({
+    required String emailPhone,
+    required String password,
+    required String checkDeviceInfo,
+    required String systemDevice,
+    required String deviceType,
+    required String deviceId,
+  }) async {
     setLoading(true);
     var userLoginSuccess = false;
     var response = await LoginNetwork.login(
       emailPhone: emailPhone,
       password: password,
+      checkDeviceInfo: checkDeviceInfo,
+      systemDevice: systemDevice,
+      deviceType: deviceType,
+      deviceId: deviceId,
     );
     if (response is NetworkSuccess) {
       setUserLoginListModel(response.response as UserLoginModel);

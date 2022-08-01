@@ -157,3 +157,14 @@ class AttendanceScheduleModel {
     return toJson().toString();
   }
 }
+
+
+class AttendanceScheduleFilterModel {
+  DateTime date;
+  AttendanceScheduleModel meeting;
+
+  AttendanceScheduleFilterModel({
+    required this.date,
+    required this.meeting,
+  });
+}

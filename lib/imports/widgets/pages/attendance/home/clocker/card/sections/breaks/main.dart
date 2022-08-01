@@ -1,13 +1,14 @@
 import 'package:akwaaba_user_app/imports/classes/network/base/api/status.dart';
 import 'package:akwaaba_user_app/imports/functions/datetime/main.dart';
-import 'package:akwaaba_user_app/imports/utilities/constants/padding_margin/home_clocker_card_list_tile/main.dart';
-import 'package:akwaaba_user_app/imports/widgets/errors/network/main.dart';
+import 'package:akwaaba_user_app/imports/functions/device_info/main.dart';
+import 'package:akwaaba_user_app/imports/utilities/constants/sizing/padding_margin/home_clocker_card_list_tile/main.dart';
+import 'package:akwaaba_user_app/imports/utilities/constants/sizing/responsive/font_size/main.dart';
 import 'package:akwaaba_user_app/imports/widgets/pages/attendance/home/clocker/card/sections/clockerfx.dart';
-import 'package:akwaaba_user_app/imports/widgets/text_button/main.dart';
 import 'package:akwaaba_user_app/models/attendance/clocking/attendance/details/main.dart';
 import 'package:akwaaba_user_app/models/attendance/clocking/attendance/main.dart';
 import 'package:akwaaba_user_app/models/attendance/schedule/main.dart';
 import 'package:akwaaba_user_app/view_models/attendance/clocking/clockers.dart';
+import 'package:akwaaba_user_app/view_models/attendance/devices/main.dart';
 import 'package:akwaaba_user_app/view_models/attendance/schedules/misc/location/main.dart';
 import 'package:art_sweetalert/art_sweetalert.dart';
 import 'package:flutter/material.dart';
@@ -30,11 +31,11 @@ class _BreaksUiCardClockerAttendancePagesHomeWidgetState
   ScrollController scrollController = ScrollController();
   GlobalKey<ArtDialogState> _artConfirmClockingDialogKey =
       GlobalKey<ArtDialogState>();
-  String alertMessage = "-";
 
   String? startBreakTime;
   String? endBreakTime;
   AttendanceClockingAttendanceModel? clockingInfoModel;
+  Map<String, dynamic>? deviceInfo;
 
   @override
   void dispose() {
@@ -46,6 +47,7 @@ class _BreaksUiCardClockerAttendancePagesHomeWidgetState
   initState() {
     super.initState();
     scrollController.addListener(scrollControllerListener);
+    deviceInfoFunction().then((value) => deviceInfo = value);
   }
 
   scrollControllerListener() {
@@ -90,6 +92,8 @@ class _BreaksUiCardClockerAttendancePagesHomeWidgetState
     AttendanceClockerClockingAttendanceViewModel
         attendanceClockingAttendanceViewModel =
         context.watch<AttendanceClockerClockingAttendanceViewModel>();
+    ClockingDeviceViewModel clockingDeviceViewModel =
+        context.watch<ClockingDeviceViewModel>();
     setClockingInfoModel(attendanceClockingAttendanceViewModel);
 
     if (clockingInfoModel != null) {
@@ -116,6 +120,7 @@ class _BreaksUiCardClockerAttendancePagesHomeWidgetState
           startBreakWidget(
             attendanceScheduleLocationViewModel,
             attendanceClockingAttendanceViewModel,
+            clockingDeviceViewModel,
           ),
           const Padding(
             padding: homeClockerCardListTile,
@@ -124,6 +129,7 @@ class _BreaksUiCardClockerAttendancePagesHomeWidgetState
           endBreakWidget(
             attendanceScheduleLocationViewModel,
             attendanceClockingAttendanceViewModel,
+            clockingDeviceViewModel,
           ),
         ],
       ),
@@ -133,12 +139,17 @@ class _BreaksUiCardClockerAttendancePagesHomeWidgetState
   ListTile startBreakWidget(
     AttendanceScheduleLocationViewModel aslViewModel,
     AttendanceClockerClockingAttendanceViewModel acaViewModel,
+    ClockingDeviceViewModel cdViewModel,
   ) {
     return ListTile(
       contentPadding: homeClockerCardListTile,
       title: Text(
         "Start Now",
-        style: Theme.of(context).textTheme.bodyText2,
+        style: Theme.of(context).textTheme.bodyText2!.copyWith(
+              fontSize: body2FontSizeResponsiveSizingContantsUtilities(
+                context,
+              ),
+            ),
       ),
       subtitle: (startBreakTime == null)
           ? Text(
@@ -146,18 +157,24 @@ class _BreaksUiCardClockerAttendancePagesHomeWidgetState
               style: Theme.of(context).textTheme.bodyText2!.copyWith(
                     color: Theme.of(context).primaryColor,
                     fontStyle: FontStyle.italic,
+                    fontSize: body2FontSizeResponsiveSizingContantsUtilities(
+                      context,
+                    ),
                   ),
             )
           : Text(
               "$startBreakTime",
               style: Theme.of(context).textTheme.bodyText1!.copyWith(
                     fontStyle: FontStyle.italic,
+                    fontSize: body2FontSizeResponsiveSizingContantsUtilities(
+                      context,
+                    ),
                   ),
             ),
       trailing: IconButton(
         color: Colors.green,
         icon: const Icon(Icons.keyboard_double_arrow_right_sharp),
-        onPressed: () => startBreakFx(aslViewModel, acaViewModel),
+        onPressed: () => startBreakFx(aslViewModel, acaViewModel, cdViewModel),
       ),
     );
   }
@@ -165,12 +182,17 @@ class _BreaksUiCardClockerAttendancePagesHomeWidgetState
   ListTile endBreakWidget(
     AttendanceScheduleLocationViewModel aslViewModel,
     AttendanceClockerClockingAttendanceViewModel acaViewModel,
+    ClockingDeviceViewModel cdViewModel,
   ) {
     return ListTile(
       contentPadding: homeClockerCardListTile,
       title: Text(
         "End Now",
-        style: Theme.of(context).textTheme.bodyText2,
+        style: Theme.of(context).textTheme.bodyText2!.copyWith(
+              fontSize: body2FontSizeResponsiveSizingContantsUtilities(
+                context,
+              ),
+            ),
       ),
       subtitle: (endBreakTime == null)
           ? Text(
@@ -178,18 +200,24 @@ class _BreaksUiCardClockerAttendancePagesHomeWidgetState
               style: Theme.of(context).textTheme.bodyText2!.copyWith(
                     color: Theme.of(context).primaryColor,
                     fontStyle: FontStyle.italic,
+                    fontSize: body2FontSizeResponsiveSizingContantsUtilities(
+                      context,
+                    ),
                   ),
             )
           : Text(
               "$endBreakTime",
               style: Theme.of(context).textTheme.bodyText1!.copyWith(
                     fontStyle: FontStyle.italic,
+                    fontSize: body2FontSizeResponsiveSizingContantsUtilities(
+                      context,
+                    ),
                   ),
             ),
       trailing: IconButton(
         color: Colors.red,
         icon: const Icon(Icons.keyboard_double_arrow_left_sharp),
-        onPressed: () => endBreakFx(aslViewModel, acaViewModel),
+        onPressed: () => endBreakFx(aslViewModel, acaViewModel, cdViewModel),
       ),
     );
   }
@@ -197,6 +225,7 @@ class _BreaksUiCardClockerAttendancePagesHomeWidgetState
   Future<bool> startBreakFx(
     AttendanceScheduleLocationViewModel aslViewModel,
     AttendanceClockerClockingAttendanceViewModel acaViewModel,
+    ClockingDeviceViewModel cdViewModel,
   ) async {
     return await clockerWidgetClockButtonFx(context,
         meetingId: widget.meeting.id!,
@@ -204,7 +233,8 @@ class _BreaksUiCardClockerAttendancePagesHomeWidgetState
         alertMessage: "Start Break",
         artConfirmClockingDialogKey: _artConfirmClockingDialogKey,
         attendanceScheduleLocationViewModel: aslViewModel,
-        clocker: (allowedToClock) async {
+        clockingDeviceViewModel: cdViewModel,
+        deviceInfo: deviceInfo!, clocker: (allowedToClock) async {
       if (allowedToClock) {
         _artConfirmClockingDialogKey.currentState!.showLoader();
         var clocked = await acaViewModel.startBreakAlt(
@@ -300,6 +330,7 @@ class _BreaksUiCardClockerAttendancePagesHomeWidgetState
   Future<bool> endBreakFx(
     AttendanceScheduleLocationViewModel aslViewModel,
     AttendanceClockerClockingAttendanceViewModel acaViewModel,
+    ClockingDeviceViewModel cdViewModel,
   ) async {
     return await clockerWidgetClockButtonFx(context,
         meetingId: widget.meeting.id!,
@@ -307,7 +338,8 @@ class _BreaksUiCardClockerAttendancePagesHomeWidgetState
         alertMessage: "End Break",
         artConfirmClockingDialogKey: _artConfirmClockingDialogKey,
         attendanceScheduleLocationViewModel: aslViewModel,
-        clocker: (allowedToClock) async {
+        clockingDeviceViewModel: cdViewModel,
+        deviceInfo: deviceInfo!, clocker: (allowedToClock) async {
       if (allowedToClock) {
         _artConfirmClockingDialogKey.currentState!.showLoader();
         var clocked = await acaViewModel.endBreakAlt(
@@ -351,7 +383,8 @@ class _BreaksUiCardClockerAttendancePagesHomeWidgetState
           // }
         }
         if (clocked is NetworkFailure) {
-          ArtDialogResponse artSweetAlert = await ArtSweetAlert.show(
+          // ArtDialogResponse artSweetAlert =
+          await ArtSweetAlert.show(
             barrierDismissible: true,
             context: context,
             artDialogArgs: ArtDialogArgs(
@@ -378,7 +411,8 @@ class _BreaksUiCardClockerAttendancePagesHomeWidgetState
           // }
         }
       } else {
-        ArtDialogResponse artSweetAlert = await ArtSweetAlert.show(
+        // ArtDialogResponse artSweetAlert =
+        await ArtSweetAlert.show(
           barrierDismissible: true,
           context: context,
           artDialogArgs: ArtDialogArgs(

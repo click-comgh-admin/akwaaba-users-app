@@ -37,17 +37,17 @@ class AttendanceClockerClockingAttendanceNetwork {
 
       if (response.statusCode == 200) {
         // print({"responseBody": responseBody});
-        dynamic response = json.decode(responseBody);
+        dynamic jsonResponse = json.decode(responseBody);
 
         AttendanceClockingAttendanceModel? clockingInfo;
-        Map<String, dynamic> data = response as Map<String, dynamic>;
+        Map<String, dynamic> data = jsonResponse as Map<String, dynamic>;
         clockingInfo = AttendanceClockingAttendanceModel.fromJson(data);
         // print({"clockingInfo": clockingInfo});
         // await _schedulesUserModelDatabase.addAttendanceSchedule(clockingInfo);
 
         return NetworkSuccess(
           response: clockingInfo,
-          code: 200,
+          code: response.statusCode,
         );
       } else {
         String reasonPhrase = response.reasonPhrase!;
@@ -121,17 +121,17 @@ class AttendanceClockerClockingAttendanceNetwork {
 
       if (response.statusCode == 200) {
         // print({"responseBody": responseBody});
-        dynamic response = json.decode(responseBody);
+        dynamic jsonResponse = json.decode(responseBody);
 
         AttendanceClockingAttendanceModel? clockingInfo;
-        Map<String, dynamic> data = response as Map<String, dynamic>;
+        Map<String, dynamic> data = jsonResponse as Map<String, dynamic>;
         clockingInfo = AttendanceClockingAttendanceModel.fromJson(data);
         // print({"clockingInfo": clockingInfo});
         // await _schedulesUserModelDatabase.addAttendanceSchedule(clockingInfo);
 
         return NetworkSuccess(
           response: clockingInfo,
-          code: 200,
+          code: response.statusCode,
         );
       } else {
         String reasonPhrase = response.reasonPhrase!;
