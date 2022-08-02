@@ -3,6 +3,7 @@ import 'package:akwaaba_user_app/imports/functions/datetime/main.dart';
 import 'package:akwaaba_user_app/imports/functions/device_info/main.dart';
 import 'package:akwaaba_user_app/imports/utilities/constants/sizing/padding_margin/home_clocker_card_list_tile/main.dart';
 import 'package:akwaaba_user_app/imports/utilities/constants/sizing/responsive/font_size/main.dart';
+import 'package:akwaaba_user_app/imports/widgets/errors/network/main.dart';
 import 'package:akwaaba_user_app/imports/widgets/pages/attendance/home/clocker/card/sections/clockerfx.dart';
 import 'package:akwaaba_user_app/models/attendance/clocking/attendance/details/main.dart';
 import 'package:akwaaba_user_app/models/attendance/clocking/attendance/main.dart';
@@ -240,7 +241,10 @@ class _BreaksUiCardClockerAttendancePagesHomeWidgetState
         var clocked = await acaViewModel.startBreakAlt(
           clockingId: widget.clockingInfo!.id,
         );
-        _artConfirmClockingDialogKey.currentState!.hideLoader();
+        // print({"clocked_clocked_clocked": clocked});
+        if (_artConfirmClockingDialogKey.currentState != null) {
+          _artConfirmClockingDialogKey.currentState!.hideLoader();
+        }
         if (clocked is NetworkSuccess) {
           AttendanceClockingAttendanceModel acam =
               clocked.response as AttendanceClockingAttendanceModel;
@@ -290,7 +294,11 @@ class _BreaksUiCardClockerAttendancePagesHomeWidgetState
               customColumns: [
                 Container(
                   margin: const EdgeInsets.only(bottom: 12.0),
-                  child: Text(clocked.errorResponse.toString()),
+                  // child: Text(clocked.errorResponse.toString()),
+                  child: NetworkErrorWidget(
+                    networkFailure: clocked,
+                    showData: true,
+                  ),
                 )
               ],
               // onConfirm: () {
@@ -345,7 +353,9 @@ class _BreaksUiCardClockerAttendancePagesHomeWidgetState
         var clocked = await acaViewModel.endBreakAlt(
           clockingId: widget.clockingInfo!.id,
         );
-        _artConfirmClockingDialogKey.currentState!.hideLoader();
+        if (_artConfirmClockingDialogKey.currentState != null) {
+          _artConfirmClockingDialogKey.currentState!.hideLoader();
+        }
         if (clocked is NetworkSuccess) {
           AttendanceClockingAttendanceModel acam =
               clocked.response as AttendanceClockingAttendanceModel;
@@ -395,7 +405,11 @@ class _BreaksUiCardClockerAttendancePagesHomeWidgetState
               customColumns: [
                 Container(
                   margin: const EdgeInsets.only(bottom: 12.0),
-                  child: Text(clocked.errorResponse.toString()),
+                  // child: Text(clocked.errorResponse.toString()),
+                  child: NetworkErrorWidget(
+                    networkFailure: clocked,
+                    showData: true,
+                  ),
                 )
               ],
               // onConfirm: () {

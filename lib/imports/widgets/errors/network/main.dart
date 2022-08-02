@@ -93,7 +93,9 @@ class _NetworkErrorWidgetState extends State<NetworkErrorWidget> {
       }
     }
     if (widget.showData) {
-      formValidationManager.validationErrors(networkFailure.data!);
+      WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+        formValidationManager.validationErrors(networkFailure.data!);
+      });
       if (formValidationManager.nonFieldErrors.isNotEmpty) {
         nonFieldErrors = formValidationManager.nonFieldErrors;
       }
@@ -107,15 +109,6 @@ class _NetworkErrorWidgetState extends State<NetworkErrorWidget> {
             controller: scrollController,
             child: Column(
               children: [
-                Text(
-                  "Error Code: ${networkFailure.code}",
-                  style: Theme.of(context).textTheme.bodyText2!.copyWith(
-                        fontSize:
-                            body2FontSizeResponsiveSizingContantsUtilities(
-                          context,
-                        ),
-                      ),
-                ),
                 if (widget.showData)
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -138,24 +131,36 @@ class _NetworkErrorWidgetState extends State<NetworkErrorWidget> {
                             ))
                         .toList(),
                   ),
-                Text(
-                  "Message: ${message.toString()}",
-                  style: Theme.of(context).textTheme.bodyText2!.copyWith(
-                        fontSize:
-                            body2FontSizeResponsiveSizingContantsUtilities(
-                          context,
+                if (!widget.showData)
+                  Text(
+                    "Error Code: ${networkFailure.code}",
+                    style: Theme.of(context).textTheme.bodyText2!.copyWith(
+                          fontSize:
+                              body2FontSizeResponsiveSizingContantsUtilities(
+                            context,
+                          ),
                         ),
-                      ),
-                ),
-                Text(
-                  "Error Exception: ${exception.toString()}",
-                  style: Theme.of(context).textTheme.bodyText2!.copyWith(
-                        fontSize:
-                            body2FontSizeResponsiveSizingContantsUtilities(
-                          context,
+                  ),
+                if (!widget.showData)
+                  Text(
+                    "Message: ${message.toString()}",
+                    style: Theme.of(context).textTheme.bodyText2!.copyWith(
+                          fontSize:
+                              body2FontSizeResponsiveSizingContantsUtilities(
+                            context,
+                          ),
                         ),
-                      ),
-                ),
+                  ),
+                if (!widget.showData)
+                  Text(
+                    "Error Exception: ${exception.toString()}",
+                    style: Theme.of(context).textTheme.bodyText2!.copyWith(
+                          fontSize:
+                              body2FontSizeResponsiveSizingContantsUtilities(
+                            context,
+                          ),
+                        ),
+                  ),
               ],
             ),
           ),

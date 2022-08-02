@@ -208,7 +208,6 @@ class _UiCardAltClockerAttendancePagesHomeWidgetState
                     ],
                   ),
                   SubUiCardAltClockerAttendancePagesHomeWidget(
-                    clockingInfoViewModel: clockingInfoViewModel,
                     meeting: widget.meeting,
                   ),
                 ],

@@ -1,13 +1,17 @@
-import 'package:akwaaba_user_app/firebase_options.dart';
+// import 'package:akwaaba_user_app/firebase_options.dart';
 import 'package:akwaaba_user_app/imports/config/routes.gr.dart';
 import 'package:akwaaba_user_app/imports/utilities/constants/sizing/responsive/devices/main.dart';
 import 'package:akwaaba_user_app/imports/utilities/theme/constants.dart';
 import 'package:akwaaba_user_app/imports/utilities/theme/manager.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:akwaaba_user_app/view_models/firebase/current_token/main.dart';
+// import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
+// final GlobalKey<ScaffoldMessengerState> snackbarKey =
+//     GlobalKey<ScaffoldMessengerState>();
 
 class WebApp extends StatefulWidget {
   const WebApp({Key? key}) : super(key: key);
@@ -18,6 +22,7 @@ class WebApp extends StatefulWidget {
 
 class _WebAppState extends State<WebApp> {
   final _appRouter = AkwaabaUserRoutes();
+
   @override
   void dispose() {
     // _themeManagerCtx.removeListener(themeListener);
@@ -32,7 +37,19 @@ class _WebAppState extends State<WebApp> {
 
     super.initState();
     initialization();
-    FirebaseMessaging.instance.getToken(vapidKey: DefaultFirebaseOptions.vapidKey).then(print);
+    // UserTokenViewModel tokenViewModel =
+    //     Provider.of<UserTokenViewModel>(context, listen: false);
+    // FirebaseMessaging.instance
+    //     .getToken(vapidKey: DefaultFirebaseOptions.vapidKey)
+    //     .then((token) {
+    //   tokenViewModel.setToken = token!;
+    // });
+    UserTokenViewModel tokenViewModel =
+        Provider.of<UserTokenViewModel>(context, listen: false);
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      tokenViewModel.userTokenWeb();
+    });
+    // FirebaseMessaging.instance.getToken(vapidKey: DefaultFirebaseOptions.vapidKey).then(print);
   }
 
   void initialization() async {
@@ -70,6 +87,7 @@ class _WebAppState extends State<WebApp> {
       title: 'Akwaaba-App',
       theme: lightTheme,
       darkTheme: darkTheme,
+      // scaffoldMessengerKey: snackbarKey,
       themeMode: themeManagerCtx.themeMode,
       debugShowCheckedModeBanner: false,
       builder: (contextRW, child) => ResponsiveWrapper.builder(

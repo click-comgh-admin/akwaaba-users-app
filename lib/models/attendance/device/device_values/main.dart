@@ -10,7 +10,7 @@ Future<ClockingDeviceValuesModel> clockingDeviceLoginValuesFunction() async {
   // print({"deviceInfo-deviceInfo": deviceInfo});
   return ClockingDeviceValuesModel.deviceInfo(
     deviceInfo,
-    checkDeviceInfo: "on",
+    checkDeviceInfo: _deviceId(deviceInfo) == ""? "false": "on",
   );
 }
 

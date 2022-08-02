@@ -3,11 +3,8 @@ import 'package:akwaaba_user_app/imports/utilities/extentions/string/main.dart';
 
 import 'package:akwaaba_user_app/imports/functions/device_info/main.dart';
 import 'package:akwaaba_user_app/imports/utilities/constants/sizing/height/main.dart';
-import 'package:akwaaba_user_app/imports/widgets/errors/network/main.dart';
 import 'package:akwaaba_user_app/imports/widgets/loading/main.dart';
-import 'package:akwaaba_user_app/models/attendance/device/main.dart';
-import 'package:akwaaba_user_app/models/attendance/device/device_values/main.dart';
-import 'package:akwaaba_user_app/models/attendance/device/request/full/main.dart';
+import 'package:akwaaba_user_app/imports/widgets/pages/settings/devices/top/approve.dart';
 import 'package:akwaaba_user_app/view_models/attendance/devices/main.dart';
 import 'package:akwaaba_user_app/view_models/attendance/devices/request.dart';
 import 'package:art_sweetalert/art_sweetalert.dart';
@@ -15,7 +12,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
-import 'package:responsive_framework/responsive_framework.dart';
 
 class TopCardDevicePageSettingsWidget extends StatefulWidget {
   const TopCardDevicePageSettingsWidget({Key? key}) : super(key: key);
@@ -106,8 +102,15 @@ class _TopCardDevicePageSettingsWidgetState
                               ),
                             ),
                             DataColumn(
-                              label: _approvedSection(clockingDeviceViewModel,
-                                  clockingDeviceRequestViewModel),
+                              label: TopCardApprovalDevicePageSettingsWidget(
+                                clockingDeviceViewModel:
+                                    clockingDeviceViewModel,
+                                clockingDeviceRequestViewModel:
+                                    clockingDeviceRequestViewModel,
+                                artConfirmClockingDialogKey:
+                                    artConfirmClockingDialogKey,
+                                deviceData: _deviceData,
+                              ),
                             ),
                           ],
                           rows: _deviceData.keys.map(
@@ -154,7 +157,7 @@ class _TopCardDevicePageSettingsWidgetState
                                                     .iconTheme
                                                     .color),
                                           ),
-                                          const SizedBox(width: 200),
+                                          const SizedBox(width: 300),
                                         ],
                                       ),
                                     ),
@@ -177,198 +180,6 @@ class _TopCardDevicePageSettingsWidgetState
             ],
           ),
         ),
-      );
-    }
-  }
-
-  _approvedSection(ClockingDeviceViewModel clockingDeviceViewModel,
-      ClockingDeviceRequestViewModel clockingDeviceRequestViewModel) {
-    if (clockingDeviceViewModel.loading) {
-      return const LoadingWidget1();
-    }
-
-    if (clockingDeviceViewModel.networkFailure != null) {
-      return NetworkErrorWidget(
-        networkFailure: clockingDeviceViewModel.networkFailure,
-      );
-    }
-    ClockingDeviceModel? clockingDeviceModel = clockingDeviceViewModel.device;
-    if (kDebugMode) {
-      // print({"attendanceSchedules": attendanceSchedules});
-    }
-
-    String myDeviceId = clockingDeviceModel!.deviceId!;
-    String myDeviceType = clockingDeviceModel.deviceType!;
-    int? mySystemDevice = clockingDeviceModel.systemDevice;
-
-    var clockingDeviceInfo = ClockingDeviceValuesModel.deviceInfo(_deviceData);
-    String deviceId = clockingDeviceInfo.deviceId;
-    String deviceType = clockingDeviceInfo.deviceType;
-    int? systemDevice = int.tryParse(clockingDeviceInfo.systemDevice);
-    if ((myDeviceId == deviceId) &
-        (myDeviceType == deviceType) &
-        (mySystemDevice == systemDevice)) {
-      return Row(
-        children: const [
-          Icon(
-            color: Colors.green,
-            Icons.check_box_outlined,
-          ),
-          width25SizeboxConstantsUtilities,
-          Text("Approved"),
-        ],
-      );
-    } else {
-      return pendingStatus(
-        clockingDeviceRequestViewModel,
-        deviceId,
-        deviceType,
-        systemDevice,
-      );
-    }
-  }
-
-  pendingStatus(
-    ClockingDeviceRequestViewModel clockingDeviceRequestViewModel,
-    String deviceId,
-    String deviceType,
-    int? systemDevice,
-  ) {
-    if (clockingDeviceRequestViewModel.loading) {
-      return const LoadingWidget1();
-    }
-
-    if (clockingDeviceRequestViewModel.networkFailure != null) {
-      return NetworkErrorWidget(
-        networkFailure: clockingDeviceRequestViewModel.networkFailure,
-      );
-    }
-    ClockingDeviceRequestFullModel? clockingDeviceRequestModel =
-        clockingDeviceRequestViewModel.requestFull;
-    if (kDebugMode) {
-      // print({"clockingDeviceRequestModel": clockingDeviceRequestModel});
-    }
-
-    bool showPending = false;
-    if (clockingDeviceRequestModel != null) {
-      if (clockingDeviceRequestModel.approved == false) {
-        showPending = true;
-      }
-    }
-    // print({"showPending": showPending});
-
-    if (showPending) {
-      return Row(
-        children: [
-          Icon(
-            color: Theme.of(context).primaryColor,
-            Icons.access_time,
-          ),
-          width10SizeboxConstantsUtilities,
-          const Text("Approval Pending"),
-          width25SizeboxConstantsUtilities,
-        ],
-      );
-    } else {
-      return ResponsiveRowColumn(
-        columnCrossAxisAlignment: CrossAxisAlignment.center,
-        columnMainAxisAlignment: MainAxisAlignment.center,
-        rowCrossAxisAlignment: CrossAxisAlignment.center,
-        rowMainAxisAlignment: MainAxisAlignment.center,
-        // rowPadding: const EdgeInsets.all(30),
-        // columnPadding: const EdgeInsets.all(30),
-        layout: ResponsiveWrapper.of(context).isSmallerThan(TABLET)
-            ? ResponsiveRowColumnType.COLUMN
-            : ResponsiveRowColumnType.ROW,
-        children: [
-          ResponsiveRowColumnItem(
-            child: Row(
-              children: const [
-                Icon(
-                  color: Colors.red,
-                  Icons.indeterminate_check_box_outlined,
-                ),
-                width10SizeboxConstantsUtilities,
-                Text("Unapproved"),
-                width25SizeboxConstantsUtilities,
-              ],
-            ),
-          ),
-          ResponsiveRowColumnItem(
-            child: TextButton.icon(
-              onPressed: () async {
-                TextStyle textStyle = Theme.of(context)
-                    .textTheme
-                    .bodyText2!
-                    .copyWith(color: Theme.of(context).cardColor);
-                await ArtSweetAlert.show(
-                  artDialogKey: artConfirmClockingDialogKey,
-                  context: context,
-                  artDialogArgs: ArtDialogArgs(
-                    title: "Request Clocking Device Approval",
-                    showCancelBtn: true,
-                    confirmButtonText: "Yes",
-                    type: ArtSweetAlertType.question,
-                    confirmButtonColor: Theme.of(context).primaryColor,
-                    cancelButtonText: "Close",
-                    onConfirm: () async {
-                      var requestApproval =
-                          await clockingDeviceRequestViewModel.requestApproval(
-                        systemDevice: systemDevice!.toString(),
-                        deviceType: deviceType,
-                        deviceId: deviceId,
-                      );
-                      if (requestApproval) {
-                        await ArtSweetAlert.show(
-                          context: context,
-                          artDialogArgs: ArtDialogArgs(
-                            type: ArtSweetAlertType.success,
-                            showCancelBtn: false,
-                            confirmButtonText: "Close",
-                            confirmButtonColor: Colors.grey,
-                            customColumns: [
-                              Container(
-                                margin: const EdgeInsets.only(bottom: 12.0),
-                                child: Text(
-                                    clockingDeviceRequestViewModel
-                                        .request!.successResponseMessage!,
-                                    style: textStyle),
-                              )
-                            ],
-                          ),
-                        );
-                        clockingDeviceRequestViewModel.nF();
-                      } else {
-                        await ArtSweetAlert.show(
-                          context: context,
-                          artDialogArgs: ArtDialogArgs(
-                            type: ArtSweetAlertType.danger,
-                            showCancelBtn: false,
-                            confirmButtonText: "Close",
-                            confirmButtonColor: Colors.grey,
-                            customColumns: [
-                              Container(
-                                margin: const EdgeInsets.only(bottom: 12.0),
-                                child: NetworkErrorWidget(
-                                  networkFailure: clockingDeviceRequestViewModel
-                                      .networkFailure,
-                                ),
-                              )
-                            ],
-                          ),
-                        );
-                      }
-                      artConfirmClockingDialogKey.currentState!.closeDialog();
-                    },
-                    // onDispose: onDispose,
-                  ),
-                );
-              },
-              icon: const Icon(Icons.important_devices_sharp),
-              label: const Text("Request Approval"),
-            ),
-          ),
-        ],
       );
     }
   }

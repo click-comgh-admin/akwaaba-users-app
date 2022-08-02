@@ -16,7 +16,9 @@ import 'package:akwaaba_user_app/view_models/attendance/schedules/misc/location/
 import 'package:akwaaba_user_app/view_models/attendance/schedules/misc/location/meeting_place.dart';
 import 'package:akwaaba_user_app/view_models/attendance/schedules/today/main.dart';
 import 'package:akwaaba_user_app/view_models/attendance/schedules/upcoming/main.dart';
+import 'package:akwaaba_user_app/view_models/firebase/current_token/main.dart';
 import 'package:akwaaba_user_app/view_models/scaffold/main.dart';
+import 'package:akwaaba_user_app/view_models/scaffold/messenger.dart';
 import 'package:akwaaba_user_app/view_models/sidebar/items/main.dart';
 import 'package:akwaaba_user_app/view_models/users/connections/main.dart';
 import 'package:akwaaba_user_app/view_models/users/login/main.dart';
@@ -29,6 +31,9 @@ List<SingleChildWidget> notifierProvidersFunction() {
       create: (context) => ScaffoldViewModel(),
     ),
     ChangeNotifierProvider(
+      create: (context) => ScaffoldMessengerViewModel(),
+    ),
+    ChangeNotifierProvider(
       create: (context) => ThemeManager(),
     ),
     ChangeNotifierProvider(
@@ -39,6 +44,9 @@ List<SingleChildWidget> notifierProvidersFunction() {
     ),
     ChangeNotifierProvider(
       create: (context) => UserLoginViewModel(),
+    ),
+    ChangeNotifierProvider(
+      create: (context) => UserTokenViewModel(),
     ),
     ChangeNotifierProvider(
       create: (context) => UserConnectionsViewModel(),

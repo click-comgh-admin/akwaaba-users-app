@@ -1,4 +1,3 @@
-import 'package:akwaaba_user_app/imports/config/routes.gr.dart';
 import 'package:akwaaba_user_app/imports/utilities/constants/sizing/responsive/devices/main.dart';
 import 'package:akwaaba_user_app/imports/utilities/constants/scaffold/appbar/main.dart';
 import 'package:akwaaba_user_app/imports/utilities/constants/scaffold/main.dart';
@@ -7,7 +6,6 @@ import 'package:akwaaba_user_app/imports/widgets/sacffold/app_bar/action_image.d
 import 'package:akwaaba_user_app/imports/widgets/sacffold/app_bar/search/main.dart';
 import 'package:akwaaba_user_app/imports/widgets/sacffold/app_bar/search/search_button.dart';
 import 'package:akwaaba_user_app/imports/widgets/sacffold/body/sidebar/button.dart';
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 

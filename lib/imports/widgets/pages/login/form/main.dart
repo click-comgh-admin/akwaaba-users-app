@@ -6,6 +6,7 @@ import 'package:akwaaba_user_app/imports/utilities/constants/sizing/responsive/f
 import 'package:akwaaba_user_app/models/attendance/device/device_values/main.dart';
 import 'package:akwaaba_user_app/imports/utilities/constants/form/main.dart';
 import 'package:akwaaba_user_app/imports/widgets/forms/field/main.dart';
+import 'package:akwaaba_user_app/view_models/firebase/current_token/main.dart';
 import 'package:akwaaba_user_app/view_models/users/login/main.dart';
 import 'package:art_sweetalert/art_sweetalert.dart';
 import 'package:flutter/material.dart';
@@ -29,6 +30,7 @@ class _FormLoginWidgetState extends State<FormLoginWidget> {
 
   final _formKey = GlobalKey<FormState>();
   bool _showPassword = false;
+  bool _permissionChecked = false;
 
   late Map<String, FieldValidationForm> listFields;
 
@@ -84,6 +86,11 @@ class _FormLoginWidgetState extends State<FormLoginWidget> {
   @override
   void initState() {
     super.initState();
+    UserTokenViewModel tokenViewModel =
+        Provider.of<UserTokenViewModel>(context, listen: false);
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      tokenViewModel.userTokenWeb();
+    });
 
     clockingDeviceLoginValuesFunction().then((value) {
       checkDeviceInfoController.text = value.checkDeviceInfo!;
@@ -277,9 +284,20 @@ class _FormLoginWidgetState extends State<FormLoginWidget> {
               padding: const EdgeInsets.symmetric(vertical: 16.0),
               child: ElevatedButton(
                 onPressed: () async {
+                  ScaffoldMessengerState scaffoldMessenger =
+                      ScaffoldMessenger.of(context);
+                  if (!_permissionChecked) {
+                    UserTokenViewModel tokenViewModel = UserTokenViewModel();
+                    NotificationPermissionChecked requestPermission =
+                        await tokenViewModel.requestPermission;
+                    scaffoldMessenger.showSnackBar(requestPermission.snackBar);
+                    setState(() {
+                      _permissionChecked = true;
+                    });
+                  }
                   // Validate returns true if the form is valid, or false otherwise.
                   if (_formKey.currentState!.validate()) {
-                    ScaffoldMessenger.of(context).showSnackBar(
+                    scaffoldMessenger.showSnackBar(
                       const SnackBar(content: Text('Logging In...')),
                     );
                     var userLoginSuccess =

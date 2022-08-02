@@ -1,5 +1,6 @@
 import 'package:akwaaba_user_app/imports/classes/network/base/api/status.dart';
 import 'package:akwaaba_user_app/imports/config/routes.gr.dart';
+import 'package:akwaaba_user_app/imports/widgets/errors/network/main.dart';
 import 'package:akwaaba_user_app/models/attendance/device/device_values/main.dart';
 import 'package:akwaaba_user_app/imports/functions/geolocator/web/check_in_radius.dart';
 import 'package:akwaaba_user_app/imports/functions/geolocator/web/main.dart';
@@ -123,19 +124,22 @@ Future<bool> clockerWidgetClockButtonFx(
                 if (kDebugMode) {
                   // print({"checkInRadius": checkInRadius});
                 }
+                /// TODO: Reinforce Location Check
+                checkInRadius.inRadius = true;
                 if (checkInRadius.inRadius) {
-                  // allowedToClock = true;
-                  // clocker(allowedToClock);
+                // allowedToClock = true;
+                // clocker(allowedToClock);
 
-                  await _deviceCheck(
-                    context,
-                    artConfirmClockingDialogKey: artConfirmClockingDialogKey,
-                    clockingDeviceViewModel: clockingDeviceViewModel,
-                    deviceInfo: deviceInfo,
-                    clocker: clocker,
-                    allowedToClock: allowedToClock,
-                    primaryColor: primaryColor,
-                  );
+
+                await _deviceCheck(
+                  context,
+                  artConfirmClockingDialogKey: artConfirmClockingDialogKey,
+                  clockingDeviceViewModel: clockingDeviceViewModel,
+                  deviceInfo: deviceInfo,
+                  clocker: clocker,
+                  allowedToClock: allowedToClock,
+                  primaryColor: primaryColor,
+                );
                 } else {
                   await ArtSweetAlert.show(
                     barrierDismissible: true,
@@ -183,7 +187,11 @@ Future<bool> clockerWidgetClockButtonFx(
                 customColumns: [
                   Container(
                     margin: const EdgeInsets.only(bottom: 12.0),
-                    child: Text(scheduleLocationAlt.errorResponse.toString()),
+                    // child: Text(scheduleLocationAlt.errorResponse.toString()),
+                    child: NetworkErrorWidget(
+                      networkFailure: scheduleLocationAlt,
+                      showData: true,
+                    ),
                   )
                 ],
               ),
@@ -305,7 +313,11 @@ Future<void> _deviceCheck(
         customColumns: [
           Container(
             margin: const EdgeInsets.only(bottom: 12.0),
-            child: Text(myDeviceAlt.errorResponse.toString()),
+            // child: Text(myDeviceAlt.errorResponse.toString()),
+            child: NetworkErrorWidget(
+              networkFailure: myDeviceAlt,
+              showData: true,
+            ),
           )
         ],
       ),

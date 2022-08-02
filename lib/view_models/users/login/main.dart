@@ -1,5 +1,6 @@
 import 'package:akwaaba_user_app/imports/classes/network/base/api/status.dart';
 import 'package:akwaaba_user_app/imports/classes/network/users/login/main.dart';
+// import 'package:akwaaba_user_app/imports/database/firebase/current_token/main.dart';
 import 'package:akwaaba_user_app/imports/database/models/users/connections/main.dart';
 import 'package:akwaaba_user_app/imports/database/models/users/login/main.dart';
 import 'package:akwaaba_user_app/models/users/login/main.dart';
@@ -8,6 +9,8 @@ import 'package:flutter/material.dart';
 final LoginUserModelDatabase _loginUserModelDatabase = LoginUserModelDatabase();
 final ConnectionsUserModelDatabase _connectionsUserModelDatabase =
     ConnectionsUserModelDatabase();
+// final CurrentFirebaseTokenDatabase _currentFirebaseTokenDatabase =
+//     CurrentFirebaseTokenDatabase();
 
 class UserLoginViewModel extends ChangeNotifier {
   bool _loading = false;
@@ -137,6 +140,7 @@ class UserLoginViewModel extends ChangeNotifier {
     setLoading(true);
     await _loginUserModelDatabase.removeLogin(memberId);
     await _connectionsUserModelDatabase.removeConnections();
+    // await _currentFirebaseTokenDatabase.removeToken();
     setLoading(false);
   }
 }

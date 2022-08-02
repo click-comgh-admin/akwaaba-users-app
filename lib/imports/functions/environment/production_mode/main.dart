@@ -4,7 +4,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 productionModeEnvironmentVariablesFunction() {
   String inProd = dotenv.get('IN_PRODUCTION');
   if (kDebugMode) {
-    print({"inProd": inProd});
+    // print({"inProd": inProd});
   }
   // bool inProduction= inProd as bool;
   if (inProd == "true") {

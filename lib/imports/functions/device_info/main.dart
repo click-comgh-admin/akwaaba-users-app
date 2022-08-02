@@ -2,7 +2,10 @@ import 'dart:convert';
 import 'dart:io';
 // import 'dart:typed_data';
 
+// import 'package:akwaaba_user_app/firebase_options.dart';
+import 'package:akwaaba_user_app/view_models/firebase/current_token/main.dart';
 import 'package:device_info_plus/device_info_plus.dart';
+// import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:universal_io/io.dart';
@@ -15,7 +18,8 @@ Future<Map<String, dynamic>> deviceInfoFunction() async {
     if (kIsWeb) {
       // var windowsInfo = await deviceInfoPlugin.windowsInfo;
       // print({"await deviceInfoPlugin.windowsInfo": windowsInfo});
-      deviceData = _readWebBrowserInfo(await deviceInfoPlugin.webBrowserInfo);
+      // deviceData = _readWebBrowserInfo(await deviceInfoPlugin.webBrowserInfo);
+      deviceData = await _readWebBrowserInfoFBM();
     } else {
       if (Platform.isAndroid) {
         deviceData = _readAndroidBuildData(await deviceInfoPlugin.androidInfo);
@@ -108,8 +112,10 @@ Map<String, dynamic> _readLinuxDeviceInfo(LinuxDeviceInfo data) {
   };
 }
 
+// ignore: unused_element
 Map<String, dynamic> _readWebBrowserInfo(WebBrowserInfo data) {
-  var bytes = utf8.encode("${describeEnum(data.browserName)}${data.deviceMemory}");
+  var bytes =
+      utf8.encode("${describeEnum(data.browserName)}${data.deviceMemory}");
 
   return <String, dynamic>{
     'device id': base64.encode(bytes),
@@ -129,6 +135,17 @@ Map<String, dynamic> _readWebBrowserInfo(WebBrowserInfo data) {
     // 'vendorSub': data.vendorSub,
     // 'hardwareConcurrency': data.hardwareConcurrency,
     // 'maxTouchPoints': data.maxTouchPoints,
+  };
+}
+
+Future<Map<String, dynamic>> _readWebBrowserInfoFBM() async {
+  UserTokenViewModel tokenViewModel = UserTokenViewModel();
+
+  String? token = await tokenViewModel.getToken;
+  // print({"token-token_token-token": token});
+  return <String, dynamic>{
+    'device id': token,
+    'device type': "Browser-PWA",
   };
 }
 

@@ -46,4 +46,8 @@ class CheckInRadius {
   String short;
 
   CheckInRadius({required this.inRadius, required this.short});
+  @override
+  String toString() {
+    return '{"inRadius": $inRadius, "short": $short, }';
+  }
 }

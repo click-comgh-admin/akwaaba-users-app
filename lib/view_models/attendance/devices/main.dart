@@ -88,7 +88,7 @@ class ClockingDeviceViewModel extends ChangeNotifier {
     if (response is NetworkSuccess) {
       var list = response.response as List<ClockingDeviceModel>;
 
-      list.sort((a, b) => a.id!.compareTo(b.id!));
+      // list.sort((a, b) => a.id!.compareTo(b.id!));
       if (list.isNotEmpty) {
         setClockingDeviceModel(list[0]);
       }
@@ -108,7 +108,7 @@ class ClockingDeviceViewModel extends ChangeNotifier {
     if (response is NetworkSuccess) {
       var list = response.response as List<ClockingDeviceModel>;
 
-      list.sort((a, b) => a.id!.compareTo(b.id!));
+      // list.sort((a, b) => a.id!.compareTo(b.id!));
       response = NetworkSuccess(
           code: response.code, response: list.isNotEmpty ? list[0] : null);
     }

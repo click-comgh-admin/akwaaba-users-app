@@ -55,7 +55,10 @@ class AttendanceClockingAttendanceViewModel extends ChangeNotifier {
   }
 
   setClockingInfoModel(AttendanceClockingAttendanceModel clockingInfo) {
-    _clockingInfo = clockingInfo;
+    // _clockingInfo = clockingInfo;
+    if (!_clockingInfos.contains(clockingInfo)) {
+      _clockingInfos.add(clockingInfo);
+    }
   }
 
   setClockingInfoListModel(
@@ -68,7 +71,10 @@ class AttendanceClockingAttendanceViewModel extends ChangeNotifier {
 
   setClockingInfoDetailsModel(
       AttendanceClockingAttendanceDetailsModel clockingInfoDetails) {
-    _clockingInfoDetails = clockingInfoDetails;
+    // _clockingInfoDetails = clockingInfoDetails;
+    if (!_clockingInfosDetails.contains(clockingInfoDetails)) {
+      _clockingInfosDetails.add(clockingInfoDetails);
+    }
   }
 
   setClockingInfoListDetailsModel(
@@ -101,9 +107,15 @@ class AttendanceClockingAttendanceViewModel extends ChangeNotifier {
         setClockingInfoDetailsModel(
           response.response as AttendanceClockingAttendanceDetailsModel,
         );
+        setClockingInfoDetailsModel(
+          response.response as AttendanceClockingAttendanceDetailsModel,
+        );
       } else {
         setClockingInfoModel(
           response.response as AttendanceClockingAttendanceModel,
+        );
+        setClockingInfoDetailsModel(
+          response.response as AttendanceClockingAttendanceDetailsModel,
         );
       }
       clockingInfosSuccess = true;

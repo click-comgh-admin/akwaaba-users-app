@@ -195,7 +195,7 @@ class AttendanceBreakClockerClockingAttendanceNetwork {
       };
 
       var url = Uri.parse(
-          "${apiBaseUrlFunctions(START_BREAK_MEMBER_CLOCKING_ATTENDANCE_SCHEDULES_API_ENDPOINTS)}/$attendanceId");
+          "${apiBaseUrlFunctions(END_BREAK_MEMBER_CLOCKING_ATTENDANCE_SCHEDULES_API_ENDPOINTS)}/$attendanceId");
       var request = http.Request('PATCH', url);
 
       request.headers.addAll(headers);
